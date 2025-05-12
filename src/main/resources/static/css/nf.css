@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Lato", sans-serif;
+}
+
+body {
+    background-color: #151418 ;
+    height: 100vh;
+}
+
+.headerMenu {
+    display: flex;
+    color: white;
+    /*background-color:#007E5A ;*/
+    background-color: #252831;
+    align-items: center;
+    font-size: 30px;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    justify-content: space-between;
+    padding-right: 10%;
+}
+
+.logo {
+    height:60px;
+}
+
+.menuIcon {
+    filter: invert();
+    height: 30px;
+    cursor: pointer;
+}
+
+#main {
+    background-color: white;
+    height: 400px;
+    width: 30%;
+    border-radius: 20px;
+}
+
+.upBox {
+    display: flex;
+    padding: 3%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.box {
+    background-color: white;
+    width: 19%;
+    height: 120px;
+    color: white;
+    border-radius: 10px;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    text-indent: 10%;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.box1 {
+    background:rgb(44, 67, 116);
+}
+
+.box2 {
+    background: rgb(113, 35, 238);
+}
+
+.box3 {
+    background:rgb(20, 79, 167);
+}
+
+.box4 {
+    background: rgba(0, 126, 90, 1);
+}
+
+.valorBox {
+    font-weight: bold;
+    font-size: 30px;
+    padding-top:3% ;
+    width: 100%;
+    display: flex;
+}
+
+.valorBox p {
+    width: 85%;
+}
+
+.subValor {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+
+
+#main {
+    margin-left: 3%;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+
+.graficos {
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+#grafico2 {
+    margin-left: 3%;
+    background-color: rgb(0, 0, 0);
+    height: 400px;
+    width: 61.2%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+#grafico3 {
+    margin-left: 3%;
+    overflow: hidden;
+    background-color: white;
+    height: 400px;
+    width: 94.5%;
+    border-radius: 20px;
+    margin-top: 3%;
+    height: 300px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+#grafico4 {
+    height: 450px;
+    margin-top: 3%;
+    border-radius: 20px;
+    width: 40%;
+    margin-left: 3%;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+#grafico5 {
+    height: 450px;
+    border-radius: 20px;
+    width: 50%;
+    overflow: hidden;
+    position: relative;
+    bottom: 30px;
+}
+
+table {
+    color: white;
+    width: 100%;
+    font-size: 17px;
+}
+
+/*HEADER TABELA*/
+.tabelaEmissao {
+    background-color: #232631 ;
+    color: white;
+    width: 51.6%;
+    margin-left: 3%;
+    border-radius: 20px;
+    margin-top: 3%;
+}
+
+.tituloTable {
+    width: 68%;
+}
+
+.tituloTable h3 {
+    padding-left: 5%;
+    padding-top: 3%;
+    padding-bottom: 1%;
+}
+
+.tituloTable p {
+    padding-left:5%;
+    padding-bottom: 3%;
+    color: #8f8d8d;
+}
+
+.headerTable {
+    display: flex;
+}
+
+.pesquisa {
+    align-content: center;
+    width: 30%;
+}
+
+.fa-magnifying-glass {
+    position: relative;
+    left: 13%;
+    top: -1%;
+}
+
+.pesquisaTableInput{
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    padding: 3%;
+    text-indent: 30px;
+    background-color: rgba(192, 188, 188, 0.192);
+}
+
+/*FIM HEADER*/
+
+thead tr{
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.192);;
+}
+
+.colunaTabela1 {
+    color: #6e6868;
+    padding: 1%;
+}
+
+.linhaTabela1 {
+    padding: 2%;
+    
+}
+
+table .tr1:nth-child(even) {
+    background: linear-gradient(90deg,rgba(35, 38, 49, 1) 0%, rgba(92, 88, 88, 0.473) 47%);
+}
+
+table tr:nth-child(even) {
+    background: linear-gradient(270deg,rgba(35, 38, 49, 1) 0%, rgba(92, 88, 88, 0.315) 47%);
+}
+
+.iconInfo {
+    cursor: pointer;
+}
+
+.tabela2 {
+    height: 450px;
+    margin-top: 3%;
+    border-radius: 20px;
+    width: 94.5%;
+    margin-left: 3%;
+    background-color: #232631;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.tabela2 h3 {
+    padding-left: 3%;
+    color: white;
+    padding-top: 1%;
+    width: 30%;
+    padding-bottom: 1%;
+}
+
+.dadosTabela {
+    display: flex;
+}
+
+.dadosTabela table {
+    width: 50%;
+}
+
+.colunaTabela2 {
+    color: #6e6868;
+    padding: 1%;
+}
+
+.linhaTabela2 {
+    padding: 2%;
+}

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/nf.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="/img/iconA.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <title>Monitor de Serviços NF</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+
+<body>
+    <div class="headerMenu">
+        <img class="logo" src="/img/atacadao.png" alt="logoatacadao" />
+        <p>EMISSÃO NFCE</p>
+        <img class="menuIcon" src="/img/menu.png" alt="" />
+    </div>
+
+    <div class="upBox">
+        <div class="box box1"><br>
+            <p class="tituloBox">Diario</p>
+            <div class="valorBox">
+                <p>2 Mil</p>
+                <span><i class="fa-solid fa-calendar-day"></i></span>
+            </div>
+            <p class="subValor">↑ 1 mil</p>
+        </div>
+
+        <div class="box box2"><br>
+            <p class="tituloBox">Hora / Hora</p>
+            <div class="valorBox">
+                <p>500 Nfs</p>
+                <span><i class="fa-solid fa-clock"></i></span>
+            </div>
+            <p class="subValor">↑ 250 NFs</p>
+        </div>
+
+        <div class="box box3"><br>
+            <p class="tituloBox">Tempo Medio</p>
+            <div class="valorBox">
+                <p>12 Seg</p>
+                <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
+            </div>
+            <p class="subValor">↑ 1 min</p>
+        </div>
+
+        <div class="box box4"><br>
+            <p class="tituloBox">Sem emissão</p>
+            <div class="valorBox">
+                <p>1 Mil</p>
+                <span><i class="fa-regular fa-circle-xmark"></i></span>
+            </div>
+            <p class="subValor">↑ 250</p>
+        </div>
+    </div>
+
+    <div class="graficos">
+        <div id="main"></div>
+
+        <div id="grafico2"></div>
+
+        <div id="grafico3"></div>
+
+        <div id="grafico4"></div>
+
+        <section class="tabelaEmissao">
+            <div class="headerTable">
+                <div class="tituloTable">
+                    <h3>Emissão Geral</h3>
+                    <p>Acompanhamento detalhado de emissão</p>
+                </div>
+                <div class="pesquisa">
+                    <span><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input class="pesquisaTableInput" type="text" value="">
+                </div>
+            </div>
+            <table cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="colunaTabela1" scope="col">Data</th>
+                        <th class="colunaTabela1" scope="col">Hora</th>
+                        <th class="colunaTabela1" scope="col">Total</th>
+                        <th class="colunaTabela1" scope="col">Media</th>
+                        <th class="colunaTabela1" scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tr1">
+                        <th class="linhaTabela1" scope="row">10/05/2025</th>
+                        <th class="linhaTabela1" scope="row">11:55</th>
+                        <th class="linhaTabela1" scope="row">2730</th>
+                        <th class="linhaTabela1" scope="row">15</th>
+                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
+                    </tr>
+                    <tr class="tr1">
+                        <th class="linhaTabela1" scope="row">10/05/2025</th>
+                        <th class="linhaTabela1" scope="row">12:05</th>
+                        <th class="linhaTabela1" scope="row">2680</th>
+                        <th class="linhaTabela1" scope="row">12</th>
+                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
+                    </tr>
+                    <tr class="tr1">
+                        <th class="linhaTabela1" scope="row">10/05/2025</th>
+                        <th class="linhaTabela1" scope="row">12:05</th>
+                        <th class="linhaTabela1" scope="row">2801</th>
+                        <th class="linhaTabela1" scope="row">14</th>
+                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
+                    </tr>
+                    <tr class="tr1">
+                        <th class="linhaTabela1" scope="row">10/05/2025</th>
+                        <th class="linhaTabela1" scope="row">12:15</th>
+                        <th class="linhaTabela1" scope="row">2720</th>
+                        <th class="linhaTabela1" scope="row">10</th>
+                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
+                    </tr>
+                    <tr class="tr1">
+                        <th class="linhaTabela1" scope="row">10/05/2025</th>
+                        <th class="linhaTabela1" scope="row">12:20</th>
+                        <th class="linhaTabela1" scope="row">2590</th>
+                        <th class="linhaTabela1" scope="row">11</th>
+                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
+                    </tr>
+                    <tr class="tr1">
+                        <th class="linhaTabela1" scope="row">10/05/2025</th>
+                        <th class="linhaTabela1" scope="row">12:10</th>
+                        <th class="linhaTabela1" scope="row">2510</th>
+                        <th class="linhaTabela1" scope="row">09</th>
+                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="tabela2">
+            <h3>Filiais sem emissão</h3>
+            <div class="dadosTabela">
+                <table cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="colunaTabela2" scope="col">Data</th>
+                            <th class="colunaTabela2" scope="col">Hora</th>
+                            <th class="colunaTabela2" scope="col">N°</th>
+                            <th class="colunaTabela2" scope="col">Filial</th>
+                            <th class="colunaTabela2" scope="col">Média</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="linhaTabela2" scope="row">06/05/2025</th>
+                            <th class="linhaTabela2" scope="row">15:30</th>
+                            <th class="linhaTabela2" scope="row">340</th>
+                            <th class="linhaTabela2" scope="row">Tatuape</th>
+                            <th class="linhaTabela2" scope="row">09</th>
+                        </tr>
+                        <tr>
+                            <th class="linhaTabela2" scope="row">06/05/2025</th>
+                            <th class="linhaTabela2" scope="row">15:30</th>
+                            <th class="linhaTabela2" scope="row">340</th>
+                            <th class="linhaTabela2" scope="row">Tatuape</th>
+                            <th class="linhaTabela2" scope="row">09</th>
+                        </tr>
+                        <tr>
+                            <th class="linhaTabela2" scope="row">06/05/2025</th>
+                            <th class="linhaTabela2" scope="row">15:30</th>
+                            <th class="linhaTabela2" scope="row">340</th>
+                            <th class="linhaTabela2" scope="row">Tatuape</th>
+                            <th class="linhaTabela2" scope="row">09</th>
+                        </tr>
+                        <tr>
+                            <th class="linhaTabela2" scope="row">06/05/2025</th>
+                            <th class="linhaTabela2" scope="row">15:30</th>
+                            <th class="linhaTabela2" scope="row">340</th>
+                            <th class="linhaTabela2" scope="row">Tatuape</th>
+                            <th class="linhaTabela2" scope="row">09</th>
+                        </tr>
+                        <tr>
+                            <th class="linhaTabela2" scope="row">06/05/2025</th>
+                            <th class="linhaTabela2" scope="row">15:30</th>
+                            <th class="linhaTabela2" scope="row">340</th>
+                            <th class="linhaTabela2" scope="row">Tatuape</th>
+                            <th class="linhaTabela2" scope="row">09</th>
+                        </tr>
+                        <tr>
+                            <th class="linhaTabela2" scope="row">06/05/2025</th>
+                            <th class="linhaTabela2" scope="row">15:30</th>
+                            <th class="linhaTabela2" scope="row">340</th>
+                            <th class="linhaTabela2" scope="row">Tatuape</th>
+                            <th class="linhaTabela2" scope="row">09</th>
+                        </tr>
+                        <tr>
+                            <th class="linhaTabela2" scope="row">06/05/2025</th>
+                            <th class="linhaTabela2" scope="row">15:30</th>
+                            <th class="linhaTabela2" scope="row">340</th>
+                            <th class="linhaTabela2" scope="row">Tatuape</th>
+                            <th class="linhaTabela2" scope="row">09</th>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div id="grafico5"></div>
+            </div>
+        </section>
+    </div><br><br><br>
+
+
+    <!--GRAFICO 1-->
+    <script>
+        // Funções de interpolação
+        function getGradientColor(value) {
+            const max = 100;
+
+            if (value <= 25) {
+                const ratio = value / 25;
+                return interpolateColor('rgb(0, 126, 90)', 'rgb(102, 153, 0)', ratio); // Verde escuro → Verde oliva
+            } else if (value <= 50) {
+                const ratio = (value - 25) / 25;
+                return interpolateColor('rgb(102, 153, 0)', 'rgb(255, 204, 0)', ratio); // Verde oliva → Amarelo
+            } else if (value <= 75) {
+                const ratio = (value - 50) / 25;
+                return interpolateColor('rgb(255, 204, 0)', 'rgb(255, 102, 0)', ratio); // Amarelo → Laranja
+            } else {
+                const ratio = (value - 75) / 25;
+                return interpolateColor('rgb(255, 102, 0)', 'rgb(194, 54, 119)', ratio); // Laranja → Rosa/Alerta
+            }
+        }
+
+        function interpolateColor(color1, color2, factor) {
+            const c1 = parseRgb(color1);
+            const c2 = parseRgb(color2);
+            const r = Math.round(c1.r + (c2.r - c1.r) * factor);
+            const g = Math.round(c1.g + (c2.g - c1.g) * factor);
+            const b = Math.round(c1.b + (c2.b - c1.b) * factor);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function parseRgb(rgbStr) {
+            const result = rgbStr.match(/\d+/g).map(Number);
+            return {
+                r: result[0],
+                g: result[1],
+                b: result[2]
+            };
+        }
+
+        // Valor e gráfico
+        const valor = 10;
+        const max = 100;
+        const corDina = getGradientColor(valor);
+
+        const myChart = echarts.init(document.getElementById('main'));
+
+        const option = {
+            backgroundColor: '#232631',
+            title: {
+                text: 'Tempo Médio',
+                left: '10',
+                top: '10',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    color: 'white'
+                }
+            },
+            series: [
+                {
+                    type: 'gauge',
+                    startAngle: 180,
+                    endAngle: 0,
+                    center: ['50%', '75%'],
+                    radius: '100%',
+                    min: 0,
+                    max: max,
+                    axisLine: {
+                        lineStyle: {
+                            width: 50
+                        }
+                    },
+                    pointer: { show: false },
+                    axisTick: { show: false },
+                    splitLine: { show: false },
+                    axisLabel: { show: false },
+                    title: {
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 14,
+                        color: 'white',
+                        fontWeight: 'normal',
+                        text: 'Tempo Médio (NPS)'
+                    },
+                    detail: {
+                        fontSize: 28,
+                        offsetCenter: [0, '-5%'],
+                        valueAnimation: true,
+                        formatter: '{value}',
+                        color: 'white'
+                    },
+                    itemStyle: {
+                        color: 'white'
+                    },
+                    data: [
+                        {
+                            value: valor,
+                            name: 'Tempo Médio'
+                        }
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+
+    <!--GRAFICO 2-->
+    <script>
+        var chartDom = document.getElementById('grafico2');
+        var myChart3 = echarts.init(chartDom);
+        var option3;
+
+        option3 = {
+            backgroundColor: '#232631',
+            title: {
+                text: 'Tempo Médio',
+                padding: 20,
+                left: 'left',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    color: 'white'
+                },
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line',
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(0, 126, 90, 1)' },
+                            { offset: 1, color: 'rgb(70, 161, 128)' }
+                        ])
+                    }
+                }
+            ]
+        };
+
+
+        option3 && myChart3.setOption(option3); // <-- Aplica ao gráfico correto
+    </script>
+
+    <!--GRAFICO 3-->
+    <script>
+        var chartDom = document.getElementById('grafico3');
+        var myChart2 = echarts.init(chartDom, 'dark');
+        var option2 = {
+            backgroundColor: '#232631',
+            title: {
+                text: 'Tempo de Emissão - Regionais',
+                padding: 20,
+                left: 'left',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    color: 'white'
+                },
+            },
+            xAxis: {
+                type: 'category',
+                data: ['SP-C', 'SP-I', 'MS', 'DF/GO', 'PR', 'BA/SE', 'NO', 'MT', 'PE', 'MG', 'RJ/ES', 'CE', 'RS', 'SC',],
+                axisLine: { lineStyle: { color: '#aaa' } },
+                axisLabel: { color: '#ccc' }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#aaa' } },
+                axisLabel: { color: '#ccc' },
+                splitLine: { lineStyle: { color: '#333' } }
+            },
+            series: [
+                {
+                    data: [120, 200, 150, 80, 70, 90, 180, 150, 30, 20, 90, 110, 130, 160],
+                    type: 'bar',
+                    barWidth: 45,
+                    showBackground: true,
+                    backgroundStyle: {
+                        color: 'rgba(255, 255, 255, 0.05)'
+                    },
+                    itemStyle: {
+                        borderRadius: [10, 10, 0, 0],
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(0, 126, 90, 1)' },
+                            { offset: 1, color: 'rgb(70, 161, 128)' }
+                        ])
+                    }
+                }
+            ]
+        };
+
+
+        option2 && myChart2.setOption(option2);
+    </script>
+
+    <!--GRAFICO 4-->
+    <script type="text/javascript">
+        var myChart4 = echarts.init(document.getElementById('grafico4'));
+        myChart4.showLoading();
+
+        $.get('/echart-geojsonbr.json', function (brazilJson) {
+            myChart4.hideLoading();
+            echarts.registerMap('Brazil', brazilJson);
+
+            var option = {
+                backgroundColor: '#232631',
+                title: {
+                    text: 'Tempo de Emissão - Brasil',
+                    subtext: 'NFCE',
+                    padding: 20,
+                    left: 'left',
+                    textStyle: {
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                        color: 'white'
+                    },
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        return params.name + '<br/>Tempo médio: ' + (params.value ? params.value + 's' : 'Normal');
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    left: 'right',
+                    top: 'top',
+                    feature: {
+                        dataView: { readOnly: false },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                series: [
+                    {
+                        name: 'Tempo de Emissão',
+                        type: 'map',
+                        map: 'Brazil',
+                        roam: true,
+                        itemStyle: {
+                            areaColor: '#3a3f4b', // Cor base
+                            borderColor: '#999',
+                            borderWidth: 0.5
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                color: 'white'
+                            },
+                            itemStyle: {
+                                borderColor: '#fff',
+                                borderWidth: 1
+                            }
+                        },
+                        data: [
+                            { name: 'Acre', value: null },
+                            { name: 'Alagoas', value: null },
+                            { name: 'Amapá', value: null },
+                            {
+                                name: 'Amazonas',
+                                value: 12,
+                                itemStyle: { areaColor: 'red' }
+                            },
+                            {
+                                name: 'Bahia',
+                                value: 15,
+                                itemStyle: { areaColor: 'red' }
+                            },
+                            { name: 'Ceará', value: null },
+                            { name: 'Distrito Federal', value: null },
+                            {
+                                name: 'Espírito Santo',
+                                value: 11,
+                                itemStyle: { areaColor: 'red' }
+                            },
+                            { name: 'Goiás', value: null },
+                            { name: 'Maranhão', value: null },
+                            { name: 'Mato Grosso', value: null },
+                            { name: 'Mato Grosso do Sul', value: null },
+                            { name: 'Minas Gerais', value: null },
+                            { name: 'Pará', value: null },
+                            { name: 'Paraíba', value: null },
+                            {
+                                name: 'Paraná',
+                                value: 13,
+                                itemStyle: { areaColor: 'red' }
+                            },
+                            { name: 'Pernambuco', value: null },
+                            { name: 'Piauí', value: null },
+                            {
+                                name: 'Rio de Janeiro',
+                                value: 14,
+                                itemStyle: { areaColor: 'red' }
+                            },
+                            { name: 'Rio Grande do Norte', value: null },
+                            { name: 'Rio Grande do Sul', value: null },
+                            { name: 'Rondônia', value: null },
+                            { name: 'Roraima', value: null },
+                            { name: 'Santa Catarina', value: null },
+                            { name: 'São Paulo', value: null },
+                            { name: 'Sergipe', value: null },
+                            { name: 'Tocantins', value: null }
+                        ]
+                    }
+                ]
+            };
+
+            myChart4.setOption(option);
+        });
+    </script>
+
+    <!--GRAFICO 5-->
+    <script>
+        var chartDom = document.getElementById('grafico5');
+        var myChart5 = echarts.init(chartDom);
+        var option5;
+
+        option5 = {
+            backgroundColor: '#232631',
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: '5%',
+                left: 'center',
+                textStyle: {
+                    color: 'white',
+                },
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    padAngle: 5,
+                    itemStyle: {
+                        borderRadius: 10
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 40,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: [
+                        { value: 2000, name: '+20min', itemStyle: { color: '#FF6B6B' }},
+                        { value: 500, name: '10min', itemStyle: { color: '#FFD93D' } },
+                        { value: 890, name: '5Min', itemStyle: { color: 'rgba(0, 126, 90, 1)' } },
+                    ]
+                }
+            ]
+        };
+
+        option5 && myChart5.setOption(option5);
+    </script>
+
+</body>
+
+</html>
