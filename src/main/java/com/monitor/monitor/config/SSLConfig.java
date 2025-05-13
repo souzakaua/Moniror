@@ -1,16 +1,14 @@
 package com.monitor.monitor.config;
 
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
-import org.apache.hc.core5.ssl.SSLContextBuilder;
-import org.apache.hc.core5.ssl.TrustStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 
 @Configuration
@@ -18,23 +16,30 @@ public class SSLConfig {
 
     @Bean
     public RestTemplate restTemplate() throws Exception {
-        // Confia em todos os certificados
-        TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
+        // Cria o TrustManager para aceitar todos os certificados
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
 
-        // Constrói o SSLContext com a estratégia de confiança
-        SSLContext sslContext = SSLContextBuilder.create()
-                .loadTrustMaterial(null, acceptingTrustStrategy)
-                .build();
+            @Override
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            }
 
-        // Cria um cliente HTTP que ignora verificação de hostname
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setSSLContext(sslContext)
-                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                .build();
+            @Override
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            }
+        } };
 
-        // Aplica o cliente HTTP ao RestTemplate
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        // Configura o contexto SSL para ignorar a verificação do certificado
+        SSLContext sc = SSLContext.getInstance("TLS");
+        sc.init(null, trustAllCerts, new SecureRandom());
 
-        return new RestTemplate(factory);
+        // Define o SSLContext para ser usado por todas as conexões HTTPS
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        // Retorna o RestTemplate, agora configurado para ignorar SSL
+        return new RestTemplate();
     }
 }

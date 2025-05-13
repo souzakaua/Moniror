@@ -1,9 +1,9 @@
 package com.monitor.monitor.api;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monitor.monitor.api.records.TempoMedio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +15,14 @@ import java.util.Map;
 @Service
 public class ApiZabbix {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final ObjectMapper mapper = new ObjectMapper();
+
+    @Autowired
+    public ApiZabbix(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate; // Injeção do RestTemplate com SSL configurado
+    }
+
 
     public List<TempoMedio> buscarTempoMedio() {
         String url = "https://srvzabbixweb.br-atacadao.corp/api_jsonrpc.php";
@@ -28,7 +34,7 @@ public class ApiZabbix {
         Map<String, Object> params = new HashMap<>();
         params.put("output", "extend");
         params.put("history", 4);
-        params.put("itemids", "3731699");
+        params.put("itemids", "3724011");
         params.put("sortfield", "clock");
         params.put("sortorder", "DESC");
         params.put("limit", 30);

@@ -23,7 +23,8 @@
         <div class="box box1"><br>
             <p class="tituloBox">Diario</p>
             <div class="valorBox">
-                <p>2 Mil</p>
+                <p th:text="${total}"></p>
+
                 <span><i class="fa-solid fa-calendar-day"></i></span>
             </div>
             <p class="subValor">↑ 1 mil</p>
@@ -41,7 +42,7 @@
         <div class="box box3"><br>
             <p class="tituloBox">Tempo Medio</p>
             <div class="valorBox">
-                <p>12 Seg</p>
+                <p th:text="${media}"></p>
                 <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
             </div>
             <p class="subValor">↑ 1 min</p>
@@ -88,46 +89,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="tr1">
-                        <th class="linhaTabela1" scope="row">10/05/2025</th>
-                        <th class="linhaTabela1" scope="row">11:55</th>
-                        <th class="linhaTabela1" scope="row">2730</th>
-                        <th class="linhaTabela1" scope="row">15</th>
-                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
-                    </tr>
-                    <tr class="tr1">
-                        <th class="linhaTabela1" scope="row">10/05/2025</th>
-                        <th class="linhaTabela1" scope="row">12:05</th>
-                        <th class="linhaTabela1" scope="row">2680</th>
-                        <th class="linhaTabela1" scope="row">12</th>
-                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
-                    </tr>
-                    <tr class="tr1">
-                        <th class="linhaTabela1" scope="row">10/05/2025</th>
-                        <th class="linhaTabela1" scope="row">12:05</th>
-                        <th class="linhaTabela1" scope="row">2801</th>
-                        <th class="linhaTabela1" scope="row">14</th>
-                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
-                    </tr>
-                    <tr class="tr1">
-                        <th class="linhaTabela1" scope="row">10/05/2025</th>
-                        <th class="linhaTabela1" scope="row">12:15</th>
-                        <th class="linhaTabela1" scope="row">2720</th>
-                        <th class="linhaTabela1" scope="row">10</th>
-                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
-                    </tr>
-                    <tr class="tr1">
-                        <th class="linhaTabela1" scope="row">10/05/2025</th>
-                        <th class="linhaTabela1" scope="row">12:20</th>
-                        <th class="linhaTabela1" scope="row">2590</th>
-                        <th class="linhaTabela1" scope="row">11</th>
-                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
-                    </tr>
-                    <tr class="tr1">
-                        <th class="linhaTabela1" scope="row">10/05/2025</th>
-                        <th class="linhaTabela1" scope="row">12:10</th>
-                        <th class="linhaTabela1" scope="row">2510</th>
-                        <th class="linhaTabela1" scope="row">09</th>
+                    <tr class="tr1" th:each="l : ${linhas}">
+                        <th class="linhaTabela1" th:text="${l['data']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['hora']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['total']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['media']}" scope="row"></th>
                         <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
                     </tr>
                 </tbody>
@@ -206,50 +172,42 @@
         </section>
     </div><br><br><br>
 
-
     <!--GRAFICO 1-->
-    <script>
+    <script th:inline="javascript">
         // Funções de interpolação
         function getGradientColor(value) {
             const max = 100;
-
-            if (value <= 25) {
-                const ratio = value / 25;
-                return interpolateColor('rgb(0, 126, 90)', 'rgb(102, 153, 0)', ratio); // Verde escuro → Verde oliva
-            } else if (value <= 50) {
-                const ratio = (value - 25) / 25;
-                return interpolateColor('rgb(102, 153, 0)', 'rgb(255, 204, 0)', ratio); // Verde oliva → Amarelo
-            } else if (value <= 75) {
-                const ratio = (value - 50) / 25;
-                return interpolateColor('rgb(255, 204, 0)', 'rgb(255, 102, 0)', ratio); // Amarelo → Laranja
-            } else {
-                const ratio = (value - 75) / 25;
-                return interpolateColor('rgb(255, 102, 0)', 'rgb(194, 54, 119)', ratio); // Laranja → Rosa/Alerta
+            if (value <= 70) {
+                const ratio = value / 70;
+                return interpolateColor('#7CFFB2', '#FFD700', ratio);
             }
+            const ratio = (value - 70) / 30;
+            return interpolateColor('#FFD700', '#c23677', ratio);
         }
 
         function interpolateColor(color1, color2, factor) {
-            const c1 = parseRgb(color1);
-            const c2 = parseRgb(color2);
+            const c1 = hexToRgb(color1);
+            const c2 = hexToRgb(color2);
             const r = Math.round(c1.r + (c2.r - c1.r) * factor);
             const g = Math.round(c1.g + (c2.g - c1.g) * factor);
             const b = Math.round(c1.b + (c2.b - c1.b) * factor);
             return `rgb(${r}, ${g}, ${b})`;
         }
 
-        function parseRgb(rgbStr) {
-            const result = rgbStr.match(/\d+/g).map(Number);
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.slice(1), 16);
             return {
-                r: result[0],
-                g: result[1],
-                b: result[2]
+                r: (bigint >> 16) & 255,
+                g: (bigint >> 8) & 255,
+                b: bigint & 255
             };
         }
 
         // Valor e gráfico
-        const valor = 10;
+        const valor = [[${media}]];
         const max = 100;
-        const corDina = getGradientColor(valor);
+        const corDinamica = getGradientColor(valor);
+
 
         const myChart = echarts.init(document.getElementById('main'));
 
@@ -276,7 +234,8 @@
                     max: max,
                     axisLine: {
                         lineStyle: {
-                            width: 50
+                            width: 45,
+                            color: [ [valor / max, corDinamica], [1, '#e6e9ee'] ]
                         }
                     },
                     pointer: { show: false },
@@ -297,9 +256,6 @@
                         formatter: '{value}',
                         color: 'white'
                     },
-                    itemStyle: {
-                        color: 'white'
-                    },
                     data: [
                         {
                             value: valor,
@@ -312,7 +268,6 @@
 
         myChart.setOption(option);
     </script>
-
 
     <!--GRAFICO 2-->
     <script>
@@ -569,7 +524,7 @@
                         show: false
                     },
                     data: [
-                        { value: 2000, name: '+20min', itemStyle: { color: '#FF6B6B' }},
+                        { value: 2000, name: '+20min', itemStyle: { color: '#FF6B6B' } },
                         { value: 500, name: '10min', itemStyle: { color: '#FFD93D' } },
                         { value: 890, name: '5Min', itemStyle: { color: 'rgba(0, 126, 90, 1)' } },
                     ]
