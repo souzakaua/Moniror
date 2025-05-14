@@ -40,8 +40,8 @@
                 <span><i class="fa-solid fa-clock"></i></span>
             </div>
             <p th:text="${simboloNotas} + ' ' + ${diferencaNotas}"
-               th:classappend="${emissAnte < emiss} ? 'positivo' :
-               (${emissAnte > emiss} ? 'negativo' : 'neutro')"
+               th:classappend="${emissAnte < emiss} ? 'negativo' :
+               (${emissAnte > emiss} ? 'positivo' : 'neutro')"
                class="subValor"></p>
         </div>
 
