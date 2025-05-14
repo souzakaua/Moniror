@@ -27,45 +27,42 @@
 
                 <span><i class="fa-solid fa-calendar-day"></i></span>
             </div>
-            <p th:text="${simboloNotasDia} + ' ' + ${diferencaNotasDia}"
-               th:classappend="${totalNotasDiaAnte < totalNotasDiaAtual} ? 'negativo' :
-                   (${totalNotasDiaAnte > totalNotasDiaAtual} ? 'positivo' : 'neutro')"
-               class="subValor"></p>
+            <p th:if="${totalNF1} > ${totalNF2}" th:text="' ↑ '+${#numbers.formatDecimal(dif, 1, 3)}" class="subValor positivo"></p>
+            <p th:if="${totalNF1} < ${totalNF2}" th:text="' ↓ '+${#numbers.formatDecimal(dif, 1, 3)}" class="subValor negativo"></p>
+            <p th:if="${totalNF1} == ${totalNF2}" th:text="' - '+${#numbers.formatDecimal(dif, 1, 3)}" class="subValor neutro"></p>
         </div>
 
         <div class="box box2"><br>
             <p class="tituloBox">Quantidade de Documentos</p>
             <div class="valorBox">
-                <p th:text="${emiss}"></p>
+                <p th:text="${documentos1}"></p>
                 <span><i class="fa-solid fa-clock"></i></span>
             </div>
-            <p th:text="${simboloNotas} + ' ' + ${diferencaNotas}"
-               th:classappend="${emissAnte < emiss} ? 'negativo' :
-               (${emissAnte > emiss} ? 'positivo' : 'neutro')"
-               class="subValor"></p>
+            <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${difDoc}" class="subValor positivo"></p>
+            <p th:if="${documentos1} < ${documentos2}" th:text="' ↓ '+${difDoc}" class="subValor negativo"></p>
+            <p th:if="${documentos1} == ${documentos2}" th:text="' - '+${difDoc}" class="subValor neutro"></p>
         </div>
 
         <div class="box box3"><br>
             <p class="tituloBox">Tempo Medio</p>
             <div class="valorBox">
-                <p th:text="${media}"></p>
+                <p th:text="${media1}"></p>
                 <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
             </div>
-            <p th:text="${simboloMedia} + ' ' + ${diferencaMedia}"
-               th:classappend="${tempMediaAnte < media} ? 'negativo' :
-               (${tempMediaAnte > media} ? 'positivo' : 'neutro')"
-               class="subValor"></p>
-
-
+            <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}" class="subValor positivo"></p>
+            <p style="color: rgb(67, 211, 67);" th:if="${media1} < ${media2}" th:text="' ↓ '+${difMedia}" class="subValor negativo"></p>
+            <p th:if="${media1} == ${media2}" th:text="' - '+${difMedia}" class="subValor neutro" ></p>
         </div>
 
         <div class="box box4"><br>
-            <p class="tituloBox">Sem emissão</p>
+            <p class="tituloBox">Emissão por hora</p>
             <div class="valorBox">
-                <p>1 Mil</p>
-                <span><i class="fa-regular fa-circle-xmark"></i></span>
+                <p th:text="${emissao1}"></p>
+                <span><i class="fa-solid fa-print"></i></span>
             </div>
-            <p class="subValor">↑ 250</p>
+            <p th:if="${emissao1} > ${emissao2}" th:text="' ↑ '+${difEmissao}" class="subValor positivo"></p>
+            <p th:if="${emissao1} < ${emissao2}" th:text="' ↓ '+${difEmissao}" class="subValor negativo"></p>
+            <p th:if="${emissao1} == ${emissao2}" th:text="' - '+${difEmissao}" class="subValor neutro" ></p>
         </div>
     </div>
 
@@ -215,7 +212,7 @@
         }
 
         // Valor e gráfico
-        const valor = [[${media}]];
+        const valor = [[${media1}]];
         const max = 100;
         const corDinamica = getGradientColor(valor);
 
@@ -234,6 +231,7 @@
                     color: 'white'
                 }
             },
+            tooltip: {},
             series: [
                 {
                     type: 'gauge',
@@ -279,7 +277,7 @@
 
         myChart.setOption(option);
     </script>
-
+    <!--GRAFICO 2-->
     <script>
         $(document).ready(function () {
             $.get('/api/grafico-tempo', function (dados) {
@@ -300,6 +298,7 @@
                             color: 'white'
                         },
                     },
+                    tooltip: {},
                     xAxis: {
                         type: 'category',
                         boundaryGap: false,
@@ -344,6 +343,7 @@
                     color: 'white'
                 },
             },
+            tooltip: {},
             xAxis: {
                 type: 'category',
                 data: ['SP-C', 'SP-I', 'MS', 'DF/GO', 'PR', 'BA/SE', 'NO', 'MT', 'PE', 'MG', 'RJ/ES', 'CE', 'RS', 'SC',],

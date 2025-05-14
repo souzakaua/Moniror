@@ -310,11 +310,12 @@ table tr:nth-child(even) {
 }
 
 .positivo {
-  color: red;
+    color: rgb(67, 211, 67);
 }
 .negativo {
-  color: green;
+    color: red;
 }
 .neutro {
   color: orange;
 }
+

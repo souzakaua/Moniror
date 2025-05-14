@@ -28,7 +28,7 @@ public class nfceController {
         List<TempoMedio> temponfce = apiZabbix.buscarTempoMedio();
         List<TotalNf> totalnfce = apiZabbix.buscarTotalNf();
         List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHr();
-        List<TotalNfDia> totalNfDia = apiZabbix.buscarTotalNfDia();
+        List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDia();
         List<Map<String, Object>> linhas = new ArrayList<>();
 
         /*DATA NFCE*/
@@ -59,103 +59,92 @@ public class nfceController {
 
         //DECLARAÇÃO DAS VARIAVEIS
         String  tempoMedioAnt,
-                horaEmiss,
-                totalNotasDiario,
-                totalNotasHr,
-                totalNotasAnte,
-                totalNotasDiaAtual,
-                totalNotasDiaAnte,
                 tempoMedio = "0";
 
-        //RESGATANDO DA API O TOTAL DE NOTAS EMITIDAS NO DIA LINHA 1 E 2
-        TotalNfDia totalNfByDiaAtual = totalNfDia.get(0);
-        TotalNfDia totalNfByDiaAnte = totalNfDia.get(1);
+        /* **********BOX 1 (TOTAL DIARIO) ***********/
 
-        //TRATAMENTO DAS LINHAS DE EMISSÃO TOTAL DO DIA VINDAS DA API
-        String[] nfByDiaAtual = totalNfByDiaAtual.value().split(" ");
-        String[] nfByDiaAnte = totalNfByDiaAnte.value().split(" ");
-        totalNotasDiaAtual = nfByDiaAtual[0];
-        totalNotasDiaAnte = nfByDiaAnte[0];
+        /*TRAZENDO OS DADOS DA API*/
+        TotalNfDia totalNf1 = totalDiario.get(0);
+        String nfDia1 = totalNf1.value();
 
-        //RESGATANDO DA API O TOTAL DE NOTAS EMITIDAS NA ULTIMA HORA LINHA 1 E 2
-        EmissByHr emissByHora = emissByHr.get(0);
-        EmissByHr emissByHoraAnte = emissByHr.get(1);
+        TotalNfDia totalNf2 = totalDiario.get(1);
+        String nfDia2 = totalNf2.value();
 
-        //TRATAMENTO DAS LINHAS DE EMISSÃO VINDAS DA API
-        String[] emissao = emissByHora.value().split(" ");
-        String [] emissaoAnte = emissByHoraAnte.value().split(" ");
-        horaEmiss = emissao[2];
+        /*CONVERSÃO DE DADOS PARA CALCULO DE DIFERENÇA*/
+        double totalNF1 = Double.parseDouble(nfDia1);
+        double totalNF2 = Double.parseDouble(nfDia2);
+        double dif = totalNF1 - totalNF2;
 
-        //RESGATANDO DA API O TEMPO MEDIO LINHAS 1 E 2
-        TempoMedio tempoMediaAtual = temponfce.get(0);
-        TempoMedio tempoMediaAnte = temponfce.size() > 1 ? temponfce.get(1) : new TempoMedio("valor vazio");
+        model.addAttribute("totalNF1", totalNF1);
+        model.addAttribute("totalNF2", totalNF2);
+        model.addAttribute("dif", dif);
+        model.addAttribute("totalNotasDiaAtual",nfDia1);
+        /* **********FIM BOX 1 (TOTAL DIARIO) ***********/
 
-        //TRATAMENTO DAS LINHAS DE TEMPO MEDIO VINDAS DA API
-        String[] tempoMedioAtual = tempoMediaAtual.value().split(" ");
-        String[] tempoMedioAnte = tempoMediaAnte.value().split(" ");
-        totalNotasHr = tempoMedioAtual[4];
-        totalNotasAnte = tempoMedioAnte[4];
-        tempoMedio = tempoMedioAtual[7];
-        tempoMedioAnt = tempoMedioAnte[7];
-        totalNotasDiario = tempoMedioAtual[4];
+        /* **********BOX 2 (TOTAL QUANTIDADE DOC) ***********/
 
-        String simboloMedia = "0"; String  simboloNotasDia = "0"; String simboloNotas = "0";
+        TempoMedio totalDoc1 = temponfce.get(0);
+        TempoMedio totalDoc2 = temponfce.size() > 1 ? temponfce.get(1) : new TempoMedio("valor vazio");
 
-        // CONVERSÃO DO TEMPO MEDIO DE "STRING" PARA "INTEGER"
-        int mediaAnteInt = Integer.parseInt(tempoMedioAnt);
-        int mediaAtualInt = Integer.parseInt(tempoMedio);
+        String[] doc1 = totalDoc1.value().split(" ");
+        String[] doc2 = totalDoc2.value().split(" ");
 
-        //CALCULO DA VARIAÇÃO DE TEMPO MEDIO (TEMPO MAIOR OU MENOR)
-        int diferencaMedia = Math.abs(mediaAtualInt - mediaAnteInt);
-        if (mediaAnteInt < mediaAtualInt) {
-            simboloMedia = "↑";
-        }if (mediaAnteInt > mediaAtualInt) {
-            simboloMedia = "↓";
-        }if (mediaAnteInt == mediaAtualInt) {
-            simboloMedia = "-";
-        }
+        String documentos1 = doc1[4];
+        String documentos2 = doc2[4];
 
-        // CONVERSÃO DO TOTAL DE NOTAS POR HORA DE "STRING" PARA "INTEGER"
-        int notasAnteInt = Integer.parseInt(totalNotasAnte);
-        int notasAtualInt = Integer.parseInt(totalNotasHr);
+        int notasAnteInt = Integer.parseInt(documentos1);
+        int notasAtualInt = Integer.parseInt(documentos2);
 
-        //CALCULO DA VARIAÇÃO DE NOTAS (MAIOR OU MENOR)
-        int diferencaNotas = Math.abs(notasAtualInt - notasAnteInt);
-        if (notasAnteInt < notasAtualInt) {
-            simboloNotas = "↑";
-        }if (notasAnteInt > notasAtualInt) {
-            simboloNotas = "↓";
-        }if (notasAnteInt == notasAtualInt) {
-            simboloNotas = "-";
-        }
+        int difDoc = Math.abs(notasAtualInt - notasAnteInt);
 
-        // CONVERSÃO DO TOTAL DE NOTAS POR DIA DE "STRING" PARA "INTEGER"
-        int notasDiaAnteInt = Integer.parseInt(totalNotasDiaAnte);
-        int notasDiaAtualInt = Integer.parseInt(totalNotasDiaAtual);
+        model.addAttribute("documentos1",documentos1);
+        model.addAttribute("documentos2",documentos2);
+        model.addAttribute("difDoc",difDoc);
+        /* **********FIM BOX 2 (QUANTIDADE DOC) ***********/
 
-        //CALCULO DA VARIAÇÃO DE NOTAS DIA (MAIOR OU MENOR)
-        int diferencaNotasDia = Math.abs(notasDiaAnteInt - notasDiaAtualInt);
-        if (notasDiaAnteInt < notasDiaAtualInt) {
-            simboloNotasDia = "↑";
-        }if (notasDiaAnteInt > notasDiaAtualInt) {
-            simboloNotasDia = "↓";
-        }if (notasDiaAnteInt == notasDiaAtualInt) {
-            simboloNotasDia = "-";
-        }
+        /* **********BOX 3 (TEMPO MEDIO) ***********/
 
-        /*ATRIBUTOS AO HTML*/
-        model.addAttribute("totalNotasDiaAtual",totalNotasDiaAtual);
-        model.addAttribute("totalNotasDiaAnte",totalNotasDiaAnte);
-        model.addAttribute("simboloNotasDia",simboloNotasDia);
-        model.addAttribute("diferencaNotasDia",diferencaNotasDia);
-        model.addAttribute("emiss",totalNotasHr);
-        model.addAttribute("emissAnte",totalNotasAnte);
-        model.addAttribute("simboloNotas",simboloNotas);
-        model.addAttribute("diferencaNotas",diferencaNotas);
-        model.addAttribute("media",tempoMedio);
-        model.addAttribute("tempMediaAnte",tempoMedioAnt);
-        model.addAttribute("simboloMedia", simboloMedia);
-        model.addAttribute("diferencaMedia", diferencaMedia);
+        TempoMedio tempoMedia1 = temponfce.get(0);
+        TempoMedio tempoMedia2 = temponfce.size() > 1 ? temponfce.get(1) : new TempoMedio("valor vazio");
+
+        String[] tempoMedioAtual1 = tempoMedia1.value().split(" ");
+        String[] tempoMedioAnte2 = tempoMedia2.value().split(" ");
+
+        String tempoMedio1 = tempoMedioAtual1[7];
+        String tempoMedio2 = tempoMedioAnte2[7];
+
+        int media1 = Integer.parseInt(tempoMedio1);
+        int media2 = Integer.parseInt(tempoMedio2);
+
+        int difMedia = Math.abs(media1 - media2);
+
+        model.addAttribute("media1",media1);
+        model.addAttribute("media2",media2);
+        model.addAttribute("difMedia", difMedia);
+
+        /* **********FIM BOX 3 (TEMPO MEDIO) ***********/
+
+        /* **********BOX 4 (SEM EMISSÃO) ***********/
+        EmissByHr emissao1 = emissByHr.get(0);
+        EmissByHr emissao2 = emissByHr.size() > 1 ? emissByHr.get(1) : new EmissByHr("valor vazio");
+
+        String[] emitidos1 = emissao1.value().split(" ");
+        String[] emitidos2 = emissao2.value().split(" ");
+
+        String totalEmitidos1 = emitidos1[6];
+        String totalEmitidos2 = emitidos2[6];
+
+        int totalEmissao1 = Integer.parseInt(totalEmitidos1);
+        int totalEmissao2 = Integer.parseInt(totalEmitidos2);
+
+        int difEmissao = Math.abs(totalEmissao1 - totalEmissao2);
+
+
+        model.addAttribute("emissao1", totalEmissao1);
+        model.addAttribute("emissao2", totalEmissao2);
+        model.addAttribute("difEmissao", difEmissao);
+        /* **********FIM BOX 4 (SEM EMISSÃO) ***********/
+
         model.addAttribute("linhas",linhas);
 
         return "nfce";

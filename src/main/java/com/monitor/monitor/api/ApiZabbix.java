@@ -147,10 +147,10 @@ public class ApiZabbix {
         Map<String, Object> params = new HashMap<>();
         params.put("output", "extend");
         params.put("history", 4);
-        params.put("itemids", "3712327");
+        params.put("itemids", "3738580");
         params.put("sortfield", "clock");
         params.put("sortorder", "DESC");
-        params.put("limit", 2);
+        params.put("limit", 3);
 
         requestBody.put("params", params);
         requestBody.put("id", 5);
