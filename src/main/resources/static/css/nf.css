@@ -92,6 +92,7 @@ body {
 .subValor {
     color: rgb(255, 255, 255);
     font-weight: bold;
+    font-size: 1.2em;
 }
 
 
@@ -163,6 +164,30 @@ table {
     margin-left: 3%;
     border-radius: 20px;
     margin-top: 3%;
+    max-height: 455px;
+    overflow-y: auto;
+    scroll-padding-top: 75px;
+    scrollbar-color: none;
+    scrollbar-width: none;
+    scroll-behavior:  smooth;
+    scroll-snap-type: y mandatory;
+}
+
+.tabelaEmissao::-webkit-scrollbar {
+   width: 4px;
+   transition: width 0.1s ease;
+}
+.tabelaEmissao:hover::-webkit-scrollbar {
+    width: 0px;
+}
+
+.tabelaEmissao::-webkit-scrollbar-thumb {
+     background-color: rgba(255, 255, 255, 0.3);
+     border-radius: 8px;
+}
+
+.tabelaEmissao::-webkit-scrollbar-track {
+     background: transparent;
 }
 
 .tituloTable {
@@ -269,4 +294,27 @@ table tr:nth-child(even) {
 
 .linhaTabela2 {
     padding: 2%;
+}
+
+.tabelaEmissao table {
+    border-collapse: collapse;
+    width: 99.6%;
+}
+
+.tabelaEmissao thead,
+.tabelaEmissao tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    scroll-snap-align: start;
+}
+
+.positivo {
+  color: red;
+}
+.negativo {
+  color: green;
+}
+.neutro {
+  color: orange;
 }

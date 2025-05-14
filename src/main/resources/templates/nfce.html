@@ -23,20 +23,26 @@
         <div class="box box1"><br>
             <p class="tituloBox">Diario</p>
             <div class="valorBox">
-                <p th:text="${total}"></p>
+                <p th:text="${totalNotasDiaAtual}"></p>
 
                 <span><i class="fa-solid fa-calendar-day"></i></span>
             </div>
-            <p class="subValor">↑ 1 mil</p>
+            <p th:text="${simboloNotasDia} + ' ' + ${diferencaNotasDia}"
+               th:classappend="${totalNotasDiaAnte < totalNotasDiaAtual} ? 'negativo' :
+                   (${totalNotasDiaAnte > totalNotasDiaAtual} ? 'positivo' : 'neutro')"
+               class="subValor"></p>
         </div>
 
         <div class="box box2"><br>
-            <p class="tituloBox">Hora / Hora</p>
+            <p class="tituloBox">Quantidade de Documentos</p>
             <div class="valorBox">
-                <p>500 Nfs</p>
+                <p th:text="${emiss}"></p>
                 <span><i class="fa-solid fa-clock"></i></span>
             </div>
-            <p class="subValor">↑ 250 NFs</p>
+            <p th:text="${simboloNotas} + ' ' + ${diferencaNotas}"
+               th:classappend="${emissAnte < emiss} ? 'positivo' :
+               (${emissAnte > emiss} ? 'negativo' : 'neutro')"
+               class="subValor"></p>
         </div>
 
         <div class="box box3"><br>
@@ -45,7 +51,12 @@
                 <p th:text="${media}"></p>
                 <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
             </div>
-            <p class="subValor">↑ 1 min</p>
+            <p th:text="${simboloMedia} + ' ' + ${diferencaMedia}"
+               th:classappend="${tempMediaAnte < media} ? 'negativo' :
+               (${tempMediaAnte > media} ? 'positivo' : 'neutro')"
+               class="subValor"></p>
+
+
         </div>
 
         <div class="box box4"><br>
@@ -83,7 +94,7 @@
                     <tr>
                         <th class="colunaTabela1" scope="col">Data</th>
                         <th class="colunaTabela1" scope="col">Hora</th>
-                        <th class="colunaTabela1" scope="col">Total</th>
+                        <th class="colunaTabela1" scope="col">Total NF</th>
                         <th class="colunaTabela1" scope="col">Media</th>
                         <th class="colunaTabela1" scope="col"></th>
                     </tr>
@@ -269,49 +280,53 @@
         myChart.setOption(option);
     </script>
 
-    <!--GRAFICO 2-->
     <script>
-        var chartDom = document.getElementById('grafico2');
-        var myChart3 = echarts.init(chartDom);
-        var option3;
+        $(document).ready(function () {
+            $.get('/api/grafico-tempo', function (dados) {
+                const horas = dados.map(p => p.hora).reverse();
+                const medias = dados.map(p => p.media).reverse();
 
-        option3 = {
-            backgroundColor: '#232631',
-            title: {
-                text: 'Tempo Médio',
-                padding: 20,
-                left: 'left',
-                textStyle: {
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    color: 'white'
-                },
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line',
-                    areaStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            { offset: 0, color: 'rgba(0, 126, 90, 1)' },
-                            { offset: 1, color: 'rgb(70, 161, 128)' }
-                        ])
-                    }
-                }
-            ]
-        };
+                var chartDom = document.getElementById('grafico2');
+                var myChart3 = echarts.init(chartDom);
+                var option3 = {
+                    backgroundColor: '#232631',
+                    title: {
+                        text: 'Tempo Médio',
+                        padding: 20,
+                        left: 'left',
+                        textStyle: {
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            color: 'white'
+                        },
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: horas
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            data: medias,
+                            type: 'line',
+                            areaStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    { offset: 0, color: 'rgba(0, 126, 90, 1)' },
+                                    { offset: 1, color: 'rgb(70, 161, 128)' }
+                                ])
+                            }
+                        }
+                    ]
+                };
 
-
-        option3 && myChart3.setOption(option3); // <-- Aplica ao gráfico correto
+                myChart3.setOption(option3);
+            });
+        });
     </script>
+
 
     <!--GRAFICO 3-->
     <script>
