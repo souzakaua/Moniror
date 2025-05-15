@@ -2,10 +2,7 @@ package com.monitor.monitor.controller;
 
 
 import com.monitor.monitor.api.ApiZabbix;
-import com.monitor.monitor.records.EmissByHr;
-import com.monitor.monitor.records.TempoMedio;
-import com.monitor.monitor.records.TotalNf;
-import com.monitor.monitor.records.TotalNfDia;
+import com.monitor.monitor.records.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +26,8 @@ public class nfceController {
         List<TotalNf> totalnfce = apiZabbix.buscarTotalNf();
         List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHr();
         List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDia();
+        List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegional();
         List<Map<String, Object>> linhas = new ArrayList<>();
-
-        /*DATA NFCE*/
-        List<String> listaData = new ArrayList<>();
-        List<String> listaHoras = new ArrayList<>();
 
         for (TempoMedio item : temponfce) {
             String[] data = item.value().split(" ");
@@ -56,10 +50,6 @@ public class nfceController {
             linha.put("media", media);
             linhas.add(linha);
         }
-
-        //DECLARAÇÃO DAS VARIAVEIS
-        String  tempoMedioAnt,
-                tempoMedio = "0";
 
         /* **********BOX 1 (TOTAL DIARIO) ***********/
 
@@ -145,7 +135,41 @@ public class nfceController {
         model.addAttribute("difEmissao", difEmissao);
         /* **********FIM BOX 4 (SEM EMISSÃO) ***********/
 
+        /* **********GRAFICO 3(TEMPO MEDIO REGIONAL) ***********/
+        String valorCompleto = dadosRegional.get(0).value();
+
+        String[] linhasRegionais = valorCompleto.split("\n");
+
+        List<Map<String, Object>> grafico3 = new ArrayList<>();
+
+        for (String linha : linhasRegionais) {
+
+            linha = linha.trim();
+
+            String[] partes = linha.split("\\|");
+
+            if (partes.length == 3) {
+                String codEstado = partes[0].split("-")[0].trim();
+                String nomeEstado = partes[0].split("-")[1].trim();
+                String totalEstado = partes[1].split(":")[1].trim();
+                String tempoMedio = partes[2].split(":")[1].trim();
+
+                Map<String, Object> graficoRegional = new HashMap<>();
+                graficoRegional.put("codUf", codEstado);
+                graficoRegional.put("estado", nomeEstado);
+                graficoRegional.put("totalEstado", totalEstado);
+                graficoRegional.put("tempoRegional", tempoMedio);
+
+                grafico3.add(graficoRegional);
+
+                System.out.println(grafico3);
+            }
+        }
+
+        /* **********FIM GRAFICO 3(TEMPO MEDIO REGIONAL) ***********/
+
         model.addAttribute("linhas",linhas);
+        model.addAttribute("grafico3", grafico3);
 
         return "nfce";
     }

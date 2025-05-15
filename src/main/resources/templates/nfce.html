@@ -5,11 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" th:href="@{/css/nf.css}" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="icon" type="image/x-icon" href="/img/iconA.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/iconA.png}" />
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}" />
     <title>Monitor de Serviços NF</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js}"></script>
     <script>
         setTimeout(function(){
         location.reload();
@@ -19,9 +19,9 @@
 
 <body>
     <div class="headerMenu">
-        <img class="logo" src="/img/atacadao.png" alt="logoatacadao" />
+        <img class="logo" th:src="@{/img/atacadao.png}" alt="logoatacadao" />
         <p>EMISSÃO NFCE</p>
-        <img class="menuIcon" src="/img/menu.png" alt="" />
+        <img class="menuIcon" th:src="@{/img/menu.png}" alt="menu" />
     </div>
 
     <div class="upBox">
@@ -51,7 +51,7 @@
         <div class="box box3"><br>
             <p class="tituloBox">Tempo Medio</p>
             <div class="valorBox">
-                <p th:text="${media1}"></p>
+                <p th:text="${media1}+ ' seg'"></p>
                 <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
             </div>
             <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}" class="subValor positivo"></p>
@@ -283,7 +283,7 @@
         myChart.setOption(option);
     </script>
     <!--GRAFICO 2-->
-    <script>
+    <script th:inline="javascript">
         $(document).ready(function () {
             $.get('/api/grafico-tempo', function (dados) {
                 const horas = dados.map(p => p.hora).reverse();
@@ -303,34 +303,41 @@
                             color: 'white'
                         },
                     },
-                    tooltip: {},
-                    xAxis: {
-                        type: 'category',
-                        data: horas,
-                        splitLine: {
-                        show: true,
-                        lineStyle: {
-                            type: 'dashed', // ← linhas pontilhadas
-                            color: '#999',  // cor da linha
-                            width: 0.5        // espessura da linha
-                            }
-                        },
-                        boundaryGap: false
-                    },
-                    yAxis: {
-                        type: 'value',
-                        splitLine: {
-                        show: true,
-                        lineStyle: {
-                            type: 'dashed', // ← linhas pontilhadas
-                            color: '#999',  // cor da linha
-                            width: 0.5        // espessura da linha
-                            }
-                        },
-                        max: function (value){
-                        return value.max < 100 ? 70 : value.max;
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
                         }
                     },
+                     xAxis: {
+                    type: 'category',
+                    data: horas,
+                    axisLabel: {
+                        interval: 3 // Mostra um rótulo a cada N itens (0 = todos, 1 = pula 1, 2 = pula 2...)
+                    },
+                    splitLine: {
+                    show: true,
+                    lineStyle: {
+                        type: 'dashed', // ← linhas pontilhadas
+                        color: '#999',  // cor da linha
+                        width: 0.5        // espessura da linha
+                        }
+                    },
+                    boundaryGap: false
+                },
+                    yAxis: {
+                    type: 'value',
+                    splitLine: {
+                    show: true,
+                    lineStyle: {
+                        type: 'dashed', // ← linhas pontilhadas
+                        color: '#999',  // cor da linha
+                        width: 0.5        // espessura da linha
+                        }
+                    },
+                    max: function (value){
+                    return value.max < 100 ? 70 : value.max;
+                    }
+                },
                     series: [
                         {
                             data: medias,
@@ -352,64 +359,93 @@
 
 
     <!--GRAFICO 3-->
-    <script>
-        var chartDom = document.getElementById('grafico3');
-        var myChart2 = echarts.init(chartDom, 'dark');
-        var option2 = {
-            backgroundColor: '#232631',
-            title: {
-                text: 'Tempo de Emissão - Regionais',
-                padding: 20,
-                left: 'left',
-                textStyle: {
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    color: 'white'
-                },
-            },
-            tooltip: {},
-            xAxis: {
-                type: 'category',
-                data: ['SP-C', 'SP-I', 'MS', 'DF/GO', 'PR', 'BA/SE', 'NO', 'MT', 'PE', 'MG', 'RJ/ES', 'CE', 'RS', 'SC',],
-                axisLine: { lineStyle: { color: '#aaa' } },
-                axisLabel: { color: '#ccc' }
-            },
-            yAxis: {
-                type: 'value',
-                axisLine: { lineStyle: { color: '#aaa' } },
-                axisLabel: { color: '#ccc' },
-                splitLine: { lineStyle: { color: '#333' } }
-            },
-            series: [
-                {
-                    data: [120, 200, 150, 80, 70, 90, 180, 150, 30, 20, 90, 110, 130, 160],
-                    type: 'bar',
-                    barWidth: 45,
-                    showBackground: true,
-                    backgroundStyle: {
-                        color: 'rgba(255, 255, 255, 0.05)'
-                    },
-                    itemStyle: {
-                        borderRadius: [10, 10, 0, 0],
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            { offset: 0, color: 'rgba(0, 126, 90, 1)' },
-                            { offset: 1, color: 'rgb(70, 161, 128)' }
-                        ])
-                    }
-                }
-            ]
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var dadosGrafico3 = [[${grafico3}]];
+    var categorias = dadosGrafico3.map(item => item.estado);
+    var tempos = dadosGrafico3.map(item => parseFloat(item.tempoRegional));
+
+    // Parâmetro: tempo limite (em minutos) para mudar a cor
+    var tempoLimite = 30.00; // 30 segundos
+
+    // Criar os dados da série com base no tempo limite
+    var seriesData = tempos.map((valor, index) => {
+        return {
+            value: valor,
+            itemStyle: {
+                borderRadius: [10, 10, 0, 0],
+                color: valor >= tempoLimite
+                    ? new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: 'rgba(255, 0, 0, 1)' },
+                        { offset: 1, color: 'rgba(255, 100, 100, 1)' }
+                    ])
+                    : new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: 'rgba(0, 126, 90, 1)' },
+                        { offset: 1, color: 'rgb(70, 161, 128)' }
+                    ])
+            }
         };
+    });
+
+    var chartDom = document.getElementById('grafico3');
+    var myChart2 = echarts.init(chartDom, 'dark');
+
+    var option2 = {
+        backgroundColor: '#232631',
+        width: 1200,
+        title: {
+            text: 'Tempo de Emissão - Regionais',
+            padding: 20,
+            left: 'left',
+            textStyle: {
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: 'white'
+            },
+        },
+        tooltip: {},
+        xAxis: {
+            type: 'category',
+            data: categorias,
+            axisLine: { lineStyle: { color: '#aaa' } },
+            axisLabel: {
+                color: '#ccc',
+                interval: 0,
+                rotate: 45 // rotaciona para caber todos os nomes
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisLine: { lineStyle: { color: '#aaa' } },
+            axisLabel: { color: '#ccc' },
+            splitLine: { lineStyle: { color: '#333' } }
+        },
+        series: [
+            {
+                data: seriesData,
+                type: 'bar',
+                barWidth: 30,
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(255, 255, 255, 0.05)'
+                }
+            }
+        ]
+    };
+
+    option2 && myChart2.setOption(option2);
+    /*]]>*/
+</script>
 
 
-        option2 && myChart2.setOption(option2);
-    </script>
 
     <!--GRAFICO 4-->
     <script type="text/javascript">
         var myChart4 = echarts.init(document.getElementById('grafico4'));
         myChart4.showLoading();
 
-        $.get('/echart-geojsonbr.json', function (brazilJson) {
+        
+        $.get('/js/echart-geojsonbr.json', function (brazilJson) {
             myChart4.hideLoading();
             echarts.registerMap('Brazil', brazilJson);
 
