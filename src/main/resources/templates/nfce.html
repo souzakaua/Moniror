@@ -305,7 +305,10 @@
                         data: horas
                     },
                     yAxis: {
-                        type: 'value'
+                        type: 'value',
+                        max: function (value){
+                        return value.max < 100 ? 70 : value.max;
+                        }
                     },
                     series: [
                         {
