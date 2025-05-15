@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <title>Monitor de Serviços NF</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script>
+        setTimeout(function(){
+        location.reload();
+        },180000)
+    </script>
 </head>
 
 <body>
@@ -301,11 +306,27 @@
                     tooltip: {},
                     xAxis: {
                         type: 'category',
-                        boundaryGap: false,
-                        data: horas
+                        data: horas,
+                        splitLine: {
+                        show: true,
+                        lineStyle: {
+                            type: 'dashed', // ← linhas pontilhadas
+                            color: '#999',  // cor da linha
+                            width: 0.5        // espessura da linha
+                            }
+                        },
+                        boundaryGap: false
                     },
                     yAxis: {
                         type: 'value',
+                        splitLine: {
+                        show: true,
+                        lineStyle: {
+                            type: 'dashed', // ← linhas pontilhadas
+                            color: '#999',  // cor da linha
+                            width: 0.5        // espessura da linha
+                            }
+                        },
                         max: function (value){
                         return value.max < 100 ? 70 : value.max;
                         }
