@@ -21,8 +21,14 @@
     <div class="headerMenu">
         <img class="logo" th:src="@{/img/atacadao.png}" alt="logoatacadao" />
         <p>EMISSÃO NFE</p>
-        <img class="menuIcon" th:src="@{/img/menu.png}" alt="menu" />
+        <img class="menuIcon" th:src="@{/img/menu.png}" id="toggleMenuBtn" alt="menu" />
     </div>
+    <div class="menu">
+        <div class="megaMenu" id="megaMenu">
+            <p>Conteúdo do menu</p>
+        </div>
+    </div>
+
 
     <div class="upBox">
         <div class="box box1"><br>
@@ -70,7 +76,7 @@
                 <p th:text="${emissao1}"></p>
                 <span><i class="fa-solid fa-print"></i></span>
             </div>
-            <p th:text="${difEmissao + 1} + ':00 / ' +  ${difEmissao + 2} + ':00'" class="subValor neutro"></p>
+            <p th:text="${difEmissao} + ':00 / ' +  ${difEmissao + 1} + ':00'" class="subValor neutro"></p>
         </div>
     </div>
 
@@ -126,34 +132,34 @@
                 <div class="pesquisa pesquisa2">
                     <span><i class="fa-solid fa-magnifying-glass iconPesquisa2"></i></span>
                     <input class="pesquisaTableInput2" id="pesquisar2" onkeyup="pesquisarTabela2()" type="text"
-                           placeholder="Pesquisar...">
+                        placeholder="Pesquisar...">
                 </div>
             </div>
-                <table id="tabela2" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th class="colunaTabela2" scope="col">Nº Filial</th>
-                            <th class="colunaTabela2" scope="col">Unidade</th>
-                            <th class="colunaTabela2" scope="col">UF</th>
-                            <th class="colunaTabela2" scope="col">Data</th>
-                            <th class="colunaTabela2" scope="col">Ult Emiss</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="f : ${tabelaSemEmissao}">
-                            <th class="linhaTabela2" th:text="${f['numF']}" scope="row"></th>
-                            <th class="linhaTabela2" th:text="${f['nomeF']}" scope="row"></th>
-                            <th class="linhaTabela2" th:text="${f['uf']}" scope="row"></th>
-                            <th class="linhaTabela2" th:text="${f['data']}" scope="row"></th>
-                            <th class="linhaTabela2" th:text="${f['hora']}" scope="row"></th>
-                        </tr>
+            <table id="tabela2" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="colunaTabela2" scope="col">Nº Filial</th>
+                        <th class="colunaTabela2" scope="col">Unidade</th>
+                        <th class="colunaTabela2" scope="col">UF</th>
+                        <th class="colunaTabela2" scope="col">Data</th>
+                        <th class="colunaTabela2" scope="col">Ult Emiss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="f : ${tabelaSemEmissao}">
+                        <th class="linhaTabela2" th:text="${f['numF']}" scope="row"></th>
+                        <th class="linhaTabela2" th:text="${f['nomeF']}" scope="row"></th>
+                        <th class="linhaTabela2" th:text="${f['uf']}" scope="row"></th>
+                        <th class="linhaTabela2" th:text="${f['data']}" scope="row"></th>
+                        <th class="linhaTabela2" th:text="${f['hora']}" scope="row"></th>
+                    </tr>
 
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
-<!--                <div id="grafico5"></div>-->
-            </div>
-        </section>
+            <!--                <div id="grafico5"></div>-->
+    </div>
+    </section>
     </div><br><br><br>
 
     <!--GRAFICO 1-->
@@ -542,58 +548,58 @@
     </script>
 
     <!--GRAFICO 5-->
-<!--    <script>-->
-<!--        var chartDom = document.getElementById('grafico5');-->
-<!--        var myChart5 = echarts.init(chartDom);-->
-<!--        var option5;-->
+    <!--    <script>-->
+    <!--        var chartDom = document.getElementById('grafico5');-->
+    <!--        var myChart5 = echarts.init(chartDom);-->
+    <!--        var option5;-->
 
-<!--        option5 = {-->
-<!--            backgroundColor: '#232631',-->
-<!--            tooltip: {-->
-<!--                trigger: 'item'-->
-<!--            },-->
-<!--            legend: {-->
-<!--                top: '5%',-->
-<!--                left: 'center',-->
-<!--                textStyle: {-->
-<!--                    color: 'white',-->
-<!--                },-->
-<!--            },-->
-<!--            series: [-->
-<!--                {-->
-<!--                    name: 'Access From',-->
-<!--                    type: 'pie',-->
-<!--                    radius: ['40%', '70%'],-->
-<!--                    avoidLabelOverlap: false,-->
-<!--                    padAngle: 5,-->
-<!--                    itemStyle: {-->
-<!--                        borderRadius: 10-->
-<!--                    },-->
-<!--                    label: {-->
-<!--                        show: false,-->
-<!--                        position: 'center'-->
-<!--                    },-->
-<!--                    emphasis: {-->
-<!--                        label: {-->
-<!--                            show: true,-->
-<!--                            fontSize: 40,-->
-<!--                            fontWeight: 'bold'-->
-<!--                        }-->
-<!--                    },-->
-<!--                    labelLine: {-->
-<!--                        show: false-->
-<!--                    },-->
-<!--                    data: [-->
-<!--                        { value: 2000, name: '+20min', itemStyle: { color: '#FF6B6B' } },-->
-<!--                        { value: 500, name: '10min', itemStyle: { color: '#FFD93D' } },-->
-<!--                        { value: 890, name: '5Min', itemStyle: { color: 'rgba(0, 126, 90, 1)' } },-->
-<!--                    ]-->
-<!--                }-->
-<!--            ]-->
-<!--        };-->
+    <!--        option5 = {-->
+    <!--            backgroundColor: '#232631',-->
+    <!--            tooltip: {-->
+    <!--                trigger: 'item'-->
+    <!--            },-->
+    <!--            legend: {-->
+    <!--                top: '5%',-->
+    <!--                left: 'center',-->
+    <!--                textStyle: {-->
+    <!--                    color: 'white',-->
+    <!--                },-->
+    <!--            },-->
+    <!--            series: [-->
+    <!--                {-->
+    <!--                    name: 'Access From',-->
+    <!--                    type: 'pie',-->
+    <!--                    radius: ['40%', '70%'],-->
+    <!--                    avoidLabelOverlap: false,-->
+    <!--                    padAngle: 5,-->
+    <!--                    itemStyle: {-->
+    <!--                        borderRadius: 10-->
+    <!--                    },-->
+    <!--                    label: {-->
+    <!--                        show: false,-->
+    <!--                        position: 'center'-->
+    <!--                    },-->
+    <!--                    emphasis: {-->
+    <!--                        label: {-->
+    <!--                            show: true,-->
+    <!--                            fontSize: 40,-->
+    <!--                            fontWeight: 'bold'-->
+    <!--                        }-->
+    <!--                    },-->
+    <!--                    labelLine: {-->
+    <!--                        show: false-->
+    <!--                    },-->
+    <!--                    data: [-->
+    <!--                        { value: 2000, name: '+20min', itemStyle: { color: '#FF6B6B' } },-->
+    <!--                        { value: 500, name: '10min', itemStyle: { color: '#FFD93D' } },-->
+    <!--                        { value: 890, name: '5Min', itemStyle: { color: 'rgba(0, 126, 90, 1)' } },-->
+    <!--                    ]-->
+    <!--                }-->
+    <!--            ]-->
+    <!--        };-->
 
-<!--        option5 && myChart5.setOption(option5);-->
-<!--    </script>-->
+    <!--        option5 && myChart5.setOption(option5);-->
+    <!--    </script>-->
 
     <!--TABELA 1-->
     <script>
@@ -624,6 +630,7 @@
         }
     </script>
 
+    <!--TABELA 2-->
     <script>
         function pesquisarTabela2() {
             var input = document.getElementById("pesquisar2");
@@ -650,6 +657,15 @@
                 tr[i].style.display = found ? "" : "none";
             }
         }
+    </script>
+
+    <script>
+        const toggleBtn = document.getElementById('toggleMenuBtn');
+        const megaMenu = document.getElementById('megaMenu');
+
+        toggleBtn.addEventListener('click', () => {
+            megaMenu.classList.toggle('show');
+        });
     </script>
 
 

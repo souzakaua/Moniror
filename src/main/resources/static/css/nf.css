@@ -366,3 +366,30 @@ table tr:nth-child(even) {
   color: orange;
 }
 
+
+/*MEGA MENU*/
+.menu { 
+    display: flex;
+    justify-content: flex-end;
+    width: 98%;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.megaMenu { 
+    background-color: white;
+    width: 20%;
+    border-radius: 18px;
+    height: 200px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none; /* oculto por padrão */
+}
+
+.megaMenu.show {
+    display: block;
+}
+
