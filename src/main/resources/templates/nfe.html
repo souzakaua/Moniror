@@ -119,73 +119,39 @@
         </section>
 
         <section class="tabela2">
-            <h3>Filiais sem emissão</h3>
-            <div class="dadosTabela">
-                <table cellspacing="0">
+            <div class="headerTable2">
+                <div class="tituloTable">
+                    <h3>Filiais sem emissão</h3>
+                </div>
+                <div class="pesquisa pesquisa2">
+                    <span><i class="fa-solid fa-magnifying-glass iconPesquisa2"></i></span>
+                    <input class="pesquisaTableInput2" id="pesquisar2" onkeyup="pesquisarTabela2()" type="text"
+                           placeholder="Pesquisar...">
+                </div>
+            </div>
+                <table id="tabela2" cellspacing="0">
                     <thead>
                         <tr>
+                            <th class="colunaTabela2" scope="col">Nº Filial</th>
+                            <th class="colunaTabela2" scope="col">Unidade</th>
+                            <th class="colunaTabela2" scope="col">UF</th>
                             <th class="colunaTabela2" scope="col">Data</th>
-                            <th class="colunaTabela2" scope="col">Hora</th>
-                            <th class="colunaTabela2" scope="col">N°</th>
-                            <th class="colunaTabela2" scope="col">Filial</th>
-                            <th class="colunaTabela2" scope="col">Média</th>
+                            <th class="colunaTabela2" scope="col">Ult Emiss</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th class="linhaTabela2" scope="row">06/05/2025</th>
-                            <th class="linhaTabela2" scope="row">15:30</th>
-                            <th class="linhaTabela2" scope="row">340</th>
-                            <th class="linhaTabela2" scope="row">Tatuape</th>
-                            <th class="linhaTabela2" scope="row">09</th>
-                        </tr>
-                        <tr>
-                            <th class="linhaTabela2" scope="row">06/05/2025</th>
-                            <th class="linhaTabela2" scope="row">15:30</th>
-                            <th class="linhaTabela2" scope="row">340</th>
-                            <th class="linhaTabela2" scope="row">Tatuape</th>
-                            <th class="linhaTabela2" scope="row">09</th>
-                        </tr>
-                        <tr>
-                            <th class="linhaTabela2" scope="row">06/05/2025</th>
-                            <th class="linhaTabela2" scope="row">15:30</th>
-                            <th class="linhaTabela2" scope="row">340</th>
-                            <th class="linhaTabela2" scope="row">Tatuape</th>
-                            <th class="linhaTabela2" scope="row">09</th>
-                        </tr>
-                        <tr>
-                            <th class="linhaTabela2" scope="row">06/05/2025</th>
-                            <th class="linhaTabela2" scope="row">15:30</th>
-                            <th class="linhaTabela2" scope="row">340</th>
-                            <th class="linhaTabela2" scope="row">Tatuape</th>
-                            <th class="linhaTabela2" scope="row">09</th>
-                        </tr>
-                        <tr>
-                            <th class="linhaTabela2" scope="row">06/05/2025</th>
-                            <th class="linhaTabela2" scope="row">15:30</th>
-                            <th class="linhaTabela2" scope="row">340</th>
-                            <th class="linhaTabela2" scope="row">Tatuape</th>
-                            <th class="linhaTabela2" scope="row">09</th>
-                        </tr>
-                        <tr>
-                            <th class="linhaTabela2" scope="row">06/05/2025</th>
-                            <th class="linhaTabela2" scope="row">15:30</th>
-                            <th class="linhaTabela2" scope="row">340</th>
-                            <th class="linhaTabela2" scope="row">Tatuape</th>
-                            <th class="linhaTabela2" scope="row">09</th>
-                        </tr>
-                        <tr>
-                            <th class="linhaTabela2" scope="row">06/05/2025</th>
-                            <th class="linhaTabela2" scope="row">15:30</th>
-                            <th class="linhaTabela2" scope="row">340</th>
-                            <th class="linhaTabela2" scope="row">Tatuape</th>
-                            <th class="linhaTabela2" scope="row">09</th>
+                        <tr th:each="f : ${tabelaSemEmissao}">
+                            <th class="linhaTabela2" th:text="${f['numF']}" scope="row"></th>
+                            <th class="linhaTabela2" th:text="${f['nomeF']}" scope="row"></th>
+                            <th class="linhaTabela2" th:text="${f['uf']}" scope="row"></th>
+                            <th class="linhaTabela2" th:text="${f['data']}" scope="row"></th>
+                            <th class="linhaTabela2" th:text="${f['hora']}" scope="row"></th>
                         </tr>
 
                     </tbody>
                 </table>
 
-                <div id="grafico5"></div>
+<!--                <div id="grafico5"></div>-->
             </div>
         </section>
     </div><br><br><br>
@@ -474,7 +440,7 @@
             "CE": "Ceará",
             "DF": "Distrito Federal",
             "ES": "Espírito Santo",
-            "GO": "Goiás",
+            "GO": "Goias",
             "MA": "Maranhão",
             "MT": "Mato Grosso",
             "MS": "Mato Grosso do Sul",
@@ -576,58 +542,58 @@
     </script>
 
     <!--GRAFICO 5-->
-    <script>
-        var chartDom = document.getElementById('grafico5');
-        var myChart5 = echarts.init(chartDom);
-        var option5;
+<!--    <script>-->
+<!--        var chartDom = document.getElementById('grafico5');-->
+<!--        var myChart5 = echarts.init(chartDom);-->
+<!--        var option5;-->
 
-        option5 = {
-            backgroundColor: '#232631',
-            tooltip: {
-                trigger: 'item'
-            },
-            legend: {
-                top: '5%',
-                left: 'center',
-                textStyle: {
-                    color: 'white',
-                },
-            },
-            series: [
-                {
-                    name: 'Access From',
-                    type: 'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    padAngle: 5,
-                    itemStyle: {
-                        borderRadius: 10
-                    },
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: 40,
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        show: false
-                    },
-                    data: [
-                        { value: 2000, name: '+20min', itemStyle: { color: '#FF6B6B' } },
-                        { value: 500, name: '10min', itemStyle: { color: '#FFD93D' } },
-                        { value: 890, name: '5Min', itemStyle: { color: 'rgba(0, 126, 90, 1)' } },
-                    ]
-                }
-            ]
-        };
+<!--        option5 = {-->
+<!--            backgroundColor: '#232631',-->
+<!--            tooltip: {-->
+<!--                trigger: 'item'-->
+<!--            },-->
+<!--            legend: {-->
+<!--                top: '5%',-->
+<!--                left: 'center',-->
+<!--                textStyle: {-->
+<!--                    color: 'white',-->
+<!--                },-->
+<!--            },-->
+<!--            series: [-->
+<!--                {-->
+<!--                    name: 'Access From',-->
+<!--                    type: 'pie',-->
+<!--                    radius: ['40%', '70%'],-->
+<!--                    avoidLabelOverlap: false,-->
+<!--                    padAngle: 5,-->
+<!--                    itemStyle: {-->
+<!--                        borderRadius: 10-->
+<!--                    },-->
+<!--                    label: {-->
+<!--                        show: false,-->
+<!--                        position: 'center'-->
+<!--                    },-->
+<!--                    emphasis: {-->
+<!--                        label: {-->
+<!--                            show: true,-->
+<!--                            fontSize: 40,-->
+<!--                            fontWeight: 'bold'-->
+<!--                        }-->
+<!--                    },-->
+<!--                    labelLine: {-->
+<!--                        show: false-->
+<!--                    },-->
+<!--                    data: [-->
+<!--                        { value: 2000, name: '+20min', itemStyle: { color: '#FF6B6B' } },-->
+<!--                        { value: 500, name: '10min', itemStyle: { color: '#FFD93D' } },-->
+<!--                        { value: 890, name: '5Min', itemStyle: { color: 'rgba(0, 126, 90, 1)' } },-->
+<!--                    ]-->
+<!--                }-->
+<!--            ]-->
+<!--        };-->
 
-        option5 && myChart5.setOption(option5);
-    </script>
+<!--        option5 && myChart5.setOption(option5);-->
+<!--    </script>-->
 
     <!--TABELA 1-->
     <script>
@@ -635,6 +601,34 @@
             var input = document.getElementById("pesquisar1");
             var filter = input.value.toUpperCase();
             var table = document.getElementById("tabela1");
+            var tr = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < tr.length; i++) { // começa em 1 para ignorar o cabeçalho
+                var tds = tr[i].getElementsByTagName("th");
+                var found = false;
+
+                for (var j = 0; j < tds.length; j++) {
+                    var td = tds[j];
+                    if (td) {
+                        var txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                // Exibe ou oculta a linha com base no resultado
+                tr[i].style.display = found ? "" : "none";
+            }
+        }
+    </script>
+
+    <script>
+        function pesquisarTabela2() {
+            var input = document.getElementById("pesquisar2");
+            var filter = input.value.toUpperCase();
+            var table = document.getElementById("tabela2");
             var tr = table.getElementsByTagName("tr");
 
             for (var i = 1; i < tr.length; i++) { // começa em 1 para ignorar o cabeçalho

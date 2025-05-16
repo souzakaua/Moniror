@@ -172,10 +172,55 @@ public class NfeController {
         /* **********FIM GRAFICO 3(TEMPO MEDIO REGIONAL) ***********/
 
         /* **********INICIO TABELA 2(FILIAIS QUE NÃO EMITIRAM) ***********/
+
         String filiaisSemEmissao = semEmicao.get(0).value();
 
+// Lista final com os dados
+        List<Map<String, Object>> tabela2 = new ArrayList<>();
+
+// Quebra os blocos de cada filial
+        String[] blocos = filiaisSemEmissao.split("<E>");
+
+        for (String bloco : blocos) {
+            bloco = bloco.replace("</E>", "").trim();
+
+            if (bloco.isEmpty() || !bloco.contains("|")) continue;
+
+            try {
+                String[] partes = bloco.split("\\|");
+                if (partes.length != 2) continue;
+
+                String parteFilial = partes[0].trim();
+                String parteEmissao = partes[1].trim();
+
+                String[] dadosFilial = parteFilial.split("-");
+
+                String numF = dadosFilial[0].trim();
+                String nomeF = parteFilial.substring(parteFilial.indexOf("-") + 1, parteFilial.indexOf("- UF")).trim();
+                String uf = parteFilial.substring(parteFilial.lastIndexOf(":") + 1).trim();
+
+                // Corrigido: captura a data e hora corretamente
+                String dataHora = parteEmissao.replace("Ultima emissao:", "").trim();
+                String[] dataHoraSplit = dataHora.split(" ");
+                String data = dataHoraSplit[0];
+                String hora = dataHoraSplit[1];
+
+                Map<String, Object> mapa = new HashMap<>();
+                mapa.put("numF", numF);
+                mapa.put("nomeF", nomeF);
+                mapa.put("uf", uf);
+                mapa.put("data", data);
+                mapa.put("hora", hora);
+
+                tabela2.add(mapa);
+            } catch (Exception e) {
+                System.out.println("Erro ao processar bloco: " + bloco);
+                e.printStackTrace();
+            }
+        }
 
 
+        model.addAttribute("tabelaSemEmissao", tabela2);
         /* **********FIM TABELA 2(FILIAIS QUE NÃO EMITIRAM) ***********/
 
         model.addAttribute("linhas",linhas);

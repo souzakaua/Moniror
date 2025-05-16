@@ -168,27 +168,28 @@ table {
     overflow-y: auto;
     scroll-padding-top: 75px;
     scrollbar-color: none;
-    scrollbar-width: none;
+    scrollbar-width: 6px;
     scroll-behavior:  smooth;
     scroll-snap-type: y mandatory;
 }
 
-.tabelaEmissao::-webkit-scrollbar {
+.tabelaEmissao::-webkit-scrollbar, .tabela2::-webkit-scrollbar {
    width: 4px;
    transition: width 0.1s ease;
 }
-.tabelaEmissao:hover::-webkit-scrollbar {
-    width: 0px;
+.tabelaEmissao:hover::-webkit-scrollbar, .tabela2:hover::-webkit-scrollbar {
+    width: 6px;
 }
 
-.tabelaEmissao::-webkit-scrollbar-thumb {
+.tabelaEmissao::-webkit-scrollbar-thumb, .tabela2::-webkit-scrollbar-thumb {
      background-color: rgba(255, 255, 255, 0.3);
      border-radius: 8px;
 }
 
-.tabelaEmissao::-webkit-scrollbar-track {
+.tabelaEmissao::-webkit-scrollbar-track, .tabela2::-webkit-scrollbar-track  {
      background: transparent;
 }
+
 
 .tituloTable {
     width: 68%;
@@ -210,15 +211,30 @@ table {
     display: flex;
 }
 
+.headerTable2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .pesquisa {
+    align-content: center;
+    width: 30%;
+}
+.pesquisa2 {
     align-content: center;
     width: 30%;
 }
 
 .fa-magnifying-glass {
+    color: white;
     position: relative;
     left: 13%;
     top: -1%;
+}
+
+.iconPesquisa2 {
+    left: 10%;
 }
 
 .pesquisaTableInput{
@@ -228,6 +244,18 @@ table {
     font-size: 18px;
     padding: 3%;
     text-indent: 30px;
+    background-color: rgba(192, 188, 188, 0.192);
+}
+
+.pesquisaTableInput2{
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    padding: 2%;
+    padding-left: 10%;
+    margin: 20px;
+    text-indent: 0px;
     background-color: rgba(192, 188, 188, 0.192);
 }
 
@@ -269,6 +297,12 @@ table tr:nth-child(even) {
     background-color: #232631;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    overflow-y: auto;
+    scroll-padding-top: 75px;
+    scrollbar-color: none;
+    scrollbar-width: 6px;
+    scroll-behavior:  smooth;
+    scroll-snap-type: y mandatory;
 }
 
 .tabela2 h3 {
@@ -293,16 +327,25 @@ table tr:nth-child(even) {
 }
 
 .linhaTabela2 {
-    padding: 2%;
+    padding: 1%;
+    font-size: 20px;
 }
 
-.tabelaEmissao table {
+.tabelaEmissao table, .tabelaSemEmissao table {
     border-collapse: collapse;
     width: 99.6%;
 }
 
 .tabelaEmissao thead,
 .tabelaEmissao tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    scroll-snap-align: start;
+}
+
+.tabelaSemEmissao thead,
+.tabelaSemEmissao tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
