@@ -65,9 +65,7 @@
                 <p th:text="${emissao1}"></p>
                 <span><i class="fa-solid fa-print"></i></span>
             </div>
-            <p th:if="${emissao1} > ${emissao2}" th:text="' ↑ '+${difEmissao}" class="subValor positivo"></p>
-            <p th:if="${emissao1} < ${emissao2}" th:text="' ↓ '+${difEmissao}" class="subValor negativo"></p>
-            <p th:if="${emissao1} == ${emissao2}" th:text="' - '+${difEmissao}" class="subValor neutro" ></p>
+            <p th:text="'Das ' + ${difEmissao - 1} + ':00 as ' +  ${difEmissao} + ':00'" class="subValor neutro" ></p>
         </div>
     </div>
 
@@ -285,7 +283,7 @@
     <!--GRAFICO 2-->
     <script th:inline="javascript">
         $(document).ready(function () {
-            $.get('/api/grafico-tempo', function (dados) {
+            $.get('/monitor/api/grafico-tempo', function (dados) {
                 const horas = dados.map(p => p.hora).reverse();
                 const medias = dados.map(p => p.media).reverse();
 
@@ -500,7 +498,7 @@ var dadosMapa = dadosGrafico3.map(item => {
 var myChart4 = echarts.init(document.getElementById('grafico4'));
 myChart4.showLoading();
 
-$.get('/js/echart-geojsonbr.json', function (brazilJson) {
+$.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
     myChart4.hideLoading();
     echarts.registerMap('Brazil', brazilJson);
 

@@ -118,7 +118,7 @@ public class NfeController {
 
         /* **********FIM BOX 3 (TEMPO MEDIO) ***********/
 
-        /* **********BOX 4 (SEM EMISSÃO) ***********/
+        /* **********BOX 4 (EMISSÃO POR HORA) ***********/
         EmissByHr emissao1 = emissByHr.get(0);
         EmissByHr emissao2 = emissByHr.size() > 1 ? emissByHr.get(1) : new EmissByHr("valor vazio");
 
@@ -126,18 +126,17 @@ public class NfeController {
         String[] emitidos2 = emissao2.value().split(" ");
 
         String totalEmitidos1 = emitidos1[6];
-        String totalEmitidos2 = emitidos2[6];
+        String totalEmitidos2 = emitidos2[2];
 
         int totalEmissao1 = Integer.parseInt(totalEmitidos1);
         int totalEmissao2 = Integer.parseInt(totalEmitidos2);
 
-        int difEmissao = Math.abs(totalEmissao1 - totalEmissao2);
+//        int difEmissao = Math.abs(totalEmissao1 - totalEmissao2);
 
 
         model.addAttribute("emissao1", totalEmissao1);
-        model.addAttribute("emissao2", totalEmissao2);
-        model.addAttribute("difEmissao", difEmissao);
-        /* **********FIM BOX 4 (SEM EMISSÃO) ***********/
+        model.addAttribute("difEmissao", totalEmissao2);
+        /* **********FIM BOX 4 (EMISSÃO POR HORA) ***********/
 
         /* **********GRAFICO 3(TEMPO MEDIO REGIONAL) ***********/
         String valorCompleto = dadosRegional.get(0).value();

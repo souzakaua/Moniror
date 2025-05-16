@@ -65,9 +65,7 @@
                 <p th:text="${emissao1}"></p>
                 <span><i class="fa-solid fa-print"></i></span>
             </div>
-            <p th:if="${emissao1} > ${emissao2}" th:text="' ↑ '+${difEmissao}" class="subValor positivo"></p>
-            <p th:if="${emissao1} < ${emissao2}" th:text="' ↓ '+${difEmissao}" class="subValor negativo"></p>
-            <p th:if="${emissao1} == ${emissao2}" th:text="' - '+${difEmissao}" class="subValor neutro" ></p>
+            <p th:text="'Das ' + ${difEmissao - 1} + ':00 as ' +  ${difEmissao} + ':00'" class="subValor neutro" ></p>
         </div>
     </div>
 

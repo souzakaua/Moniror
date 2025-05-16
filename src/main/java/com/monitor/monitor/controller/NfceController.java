@@ -121,17 +121,17 @@ public class NfceController {
         String[] emitidos2 = emissao2.value().split(" ");
 
         String totalEmitidos1 = emitidos1[6];
-        String totalEmitidos2 = emitidos2[6];
+        String totalEmitidos2 = emitidos2[2];
 
         int totalEmissao1 = Integer.parseInt(totalEmitidos1);
         int totalEmissao2 = Integer.parseInt(totalEmitidos2);
 
-        int difEmissao = Math.abs(totalEmissao1 - totalEmissao2);
+//        int difEmissao = Math.abs(totalEmissao1 - totalEmissao2);
 
 
         model.addAttribute("emissao1", totalEmissao1);
         model.addAttribute("emissao2", totalEmissao2);
-        model.addAttribute("difEmissao", difEmissao);
+        model.addAttribute("difEmissao", totalEmissao2);
         /* **********FIM BOX 4 (SEM EMISSÃO) ***********/
 
         /* **********GRAFICO 3(TEMPO MEDIO REGIONAL) ***********/
