@@ -1,32 +1,36 @@
 package com.monitor.monitor.controller;
 
-
 import com.monitor.monitor.api.ApiZabbix;
 import com.monitor.monitor.records.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/nfce")
-public class nfceController {
+@RequestMapping("/nfe")
+public class NfeController {
+
+
     private final ApiZabbix apiZabbix;
 
-    public nfceController(ApiZabbix apiZabbix) {
+    public NfeController(ApiZabbix apiZabbix) {
         this.apiZabbix = apiZabbix;
     }
 
     @GetMapping
     public String nfce(Model model) {
-        List<TempoMedio> temponfce = apiZabbix.buscarTempoMedio();
-        List<TotalNf> totalnfce = apiZabbix.buscarTotalNf();
-        List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHr();
-        List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDia();
-        List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegional();
+        List<TempoMedio> temponfce = apiZabbix.buscarTempoMedioNfe();
+        List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHrNfe();
+        List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDiaNfe();
+        List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegionalNfe();
         List<Map<String, Object>> linhas = new ArrayList<>();
 
         for (TempoMedio item : temponfce) {
@@ -43,7 +47,7 @@ public class nfceController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String dataFormatada = dataConvertida.format(formatter);
 
-        Map<String, Object> linha = new HashMap<>();
+            Map<String, Object> linha = new HashMap<>();
             linha.put("data", dataFormatada);
             linha.put("hora", horas);
             linha.put("total", totalNf);
@@ -154,6 +158,7 @@ public class nfceController {
                 String totalEstado = partes[1].split(":")[1].trim();
                 String tempoMedio = partes[2].split(":")[1].trim();
 
+
                 Map<String, Object> graficoRegional = new HashMap<>();
                 graficoRegional.put("codUf", codEstado);
                 graficoRegional.put("estado", nomeEstado);
@@ -162,7 +167,7 @@ public class nfceController {
 
                 grafico3.add(graficoRegional);
 
-                System.out.println(grafico3);
+                System.out.println(tempoMedio);
             }
         }
 
@@ -171,8 +176,7 @@ public class nfceController {
         model.addAttribute("linhas",linhas);
         model.addAttribute("grafico3", grafico3);
 
-        return "nfce";
+        return "nfe";
     }
 
 }
-

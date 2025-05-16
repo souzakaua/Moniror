@@ -88,10 +88,10 @@
                 </div>
                 <div class="pesquisa">
                     <span><i class="fa-solid fa-magnifying-glass"></i></span>
-                    <input class="pesquisaTableInput" type="text" value="">
+                    <input class="pesquisaTableInput" id="pesquisar1" onkeyup="pesquisarTabela1()" type="text" placeholder="Pesquisar...">
                 </div>
             </div>
-            <table cellspacing="0">
+            <table cellspacing="0" id="tabela1">
                 <thead>
                     <tr>
                         <th class="colunaTabela1" scope="col">Data</th>
@@ -365,10 +365,8 @@
     var categorias = dadosGrafico3.map(item => item.estado);
     var tempos = dadosGrafico3.map(item => parseFloat(item.tempoRegional));
 
-    // Parâmetro: tempo limite (em minutos) para mudar a cor
-    var tempoLimite = 30.00; // 30 segundos
+    var tempoLimite = 30; // segundos
 
-    // Criar os dados da série com base no tempo limite
     var seriesData = tempos.map((valor, index) => {
         return {
             value: valor,
@@ -411,7 +409,7 @@
             axisLabel: {
                 color: '#ccc',
                 interval: 0,
-                rotate: 45 // rotaciona para caber todos os nomes
+                rotate: 0
             }
         },
         yAxis: {
@@ -431,12 +429,15 @@
                 },
                 label: {
                     show: true,
-                    position: 'inside',
+                    position: 'top', // Altera de 'inside' para 'top'
                     color: 'white',
                     fontWeight: 'bold',
                     fontSize: 15,
-
+                    formatter: function(params) {
+                        return Math.round(params.value) + '';
+                    }
                 }
+
             }
         ]
     };
@@ -445,122 +446,123 @@
     /*]]>*/
 </script>
 
+
     <!--GRAFICO 4-->
-    <script type="text/javascript">
-        var myChart4 = echarts.init(document.getElementById('grafico4'));
-        myChart4.showLoading();
+    <script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+var dadosGrafico3 = [[${grafico3}]];
+var tempoLimite =30;
 
-        
-        $.get('/js/echart-geojsonbr.json', function (brazilJson) {
-            myChart4.hideLoading();
-            echarts.registerMap('Brazil', brazilJson);
+// Mapa de siglas para nomes completos dos estados
+var estadoMap = {
+    "AC": "Acre",
+    "AL": "Alagoas",
+    "AP": "Amapá",
+    "AM": "Amazonas",
+    "BA": "Bahia",
+    "CE": "Ceará",
+    "DF": "Distrito Federal",
+    "ES": "Espírito Santo",
+    "GO": "Goiás",
+    "MA": "Maranhão",
+    "MT": "Mato Grosso",
+    "MS": "Mato Grosso do Sul",
+    "MG": "Minas Gerais",
+    "PA": "Pará",
+    "PB": "Paraíba",
+    "PR": "Paraná",
+    "PE": "Pernambuco",
+    "PI": "Piauí",
+    "RJ": "Rio de Janeiro",
+    "RN": "Rio Grande do Norte",
+    "RS": "Rio Grande do Sul",
+    "RO": "Rondônia",
+    "RR": "Roraima",
+    "SC": "Santa Catarina",
+    "SP": "São Paulo",
+    "SE": "Sergipe",
+    "TO": "Tocantins"
+};
 
-            var option = {
-                backgroundColor: '#232631',
-                title: {
-                    text: 'Tempo de Emissão - Brasil',
-                    subtext: 'NFCE',
-                    padding: 20,
-                    left: 'left',
-                    textStyle: {
-                        fontSize: 16,
-                        fontWeight: 'bold',
+// Converte os dados com base nas siglas
+var dadosMapa = dadosGrafico3.map(item => {
+    var nomeCompleto = estadoMap[item.estado];
+    var valor = parseFloat(item.tempoRegional);
+    return {
+        name: nomeCompleto,
+        value: valor,
+        itemStyle: {
+            areaColor: valor >= tempoLimite ? 'red' : '#3a3f4b'
+        }
+    };
+});
+
+var myChart4 = echarts.init(document.getElementById('grafico4'));
+myChart4.showLoading();
+
+$.get('/js/echart-geojsonbr.json', function (brazilJson) {
+    myChart4.hideLoading();
+    echarts.registerMap('Brazil', brazilJson);
+
+    var option = {
+        backgroundColor: '#232631',
+        title: {
+            text: 'Tempo de Emissão - Brasil',
+            subtext: 'NFCE',
+            padding: 20,
+            left: 'left',
+            textStyle: {
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: 'white'
+            },
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+                return params.name + '<br/>Tempo médio: ' + (params.value ? Math.round(params.value) + 's' : 'Normal');
+            }
+        },
+        toolbox: {
+            show: true,
+            left: 'right',
+            top: 'top',
+            feature: {
+                dataView: { readOnly: false },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        series: [
+            {
+                name: 'Tempo de Emissão',
+                type: 'map',
+                map: 'Brazil',
+                roam: true,
+                itemStyle: {
+                    areaColor: '#3a3f4b',
+                    borderColor: '#999',
+                    borderWidth: 0.5
+                },
+                emphasis: {
+                    label: {
+                        show: true,
                         color: 'white'
                     },
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: function (params) {
-                        return params.name + '<br/>Tempo médio: ' + (params.value ? params.value + 's' : 'Normal');
+                    itemStyle: {
+                        borderColor: '#fff',
+                        borderWidth: 1
                     }
                 },
-                toolbox: {
-                    show: true,
-                    left: 'right',
-                    top: 'top',
-                    feature: {
-                        dataView: { readOnly: false },
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                series: [
-                    {
-                        name: 'Tempo de Emissão',
-                        type: 'map',
-                        map: 'Brazil',
-                        roam: true,
-                        itemStyle: {
-                            areaColor: '#3a3f4b', // Cor base
-                            borderColor: '#999',
-                            borderWidth: 0.5
-                        },
-                        emphasis: {
-                            label: {
-                                show: true,
-                                color: 'white'
-                            },
-                            itemStyle: {
-                                borderColor: '#fff',
-                                borderWidth: 1
-                            }
-                        },
-                        data: [
-                            { name: 'Acre', value: null },
-                            { name: 'Alagoas', value: null },
-                            { name: 'Amapá', value: null },
-                            {
-                                name: 'Amazonas',
-                                value: 12,
-                                itemStyle: { areaColor: 'red' }
-                            },
-                            {
-                                name: 'Bahia',
-                                value: 15,
-                                itemStyle: { areaColor: 'red' }
-                            },
-                            { name: 'Ceará', value: null },
-                            { name: 'Distrito Federal', value: null },
-                            {
-                                name: 'Espírito Santo',
-                                value: 11,
-                                itemStyle: { areaColor: 'red' }
-                            },
-                            { name: 'Goiás', value: null },
-                            { name: 'Maranhão', value: null },
-                            { name: 'Mato Grosso', value: null },
-                            { name: 'Mato Grosso do Sul', value: null },
-                            { name: 'Minas Gerais', value: null },
-                            { name: 'Pará', value: null },
-                            { name: 'Paraíba', value: null },
-                            {
-                                name: 'Paraná',
-                                value: 13,
-                                itemStyle: { areaColor: 'red' }
-                            },
-                            { name: 'Pernambuco', value: null },
-                            { name: 'Piauí', value: null },
-                            {
-                                name: 'Rio de Janeiro',
-                                value: 14,
-                                itemStyle: { areaColor: 'red' }
-                            },
-                            { name: 'Rio Grande do Norte', value: null },
-                            { name: 'Rio Grande do Sul', value: null },
-                            { name: 'Rondônia', value: null },
-                            { name: 'Roraima', value: null },
-                            { name: 'Santa Catarina', value: null },
-                            { name: 'São Paulo', value: null },
-                            { name: 'Sergipe', value: null },
-                            { name: 'Tocantins', value: null }
-                        ]
-                    }
-                ]
-            };
+                data: dadosMapa
+            }
+        ]
+    };
 
-            myChart4.setOption(option);
-        });
-    </script>
+    myChart4.setOption(option);
+});
+/*]]>*/
+</script>
 
     <!--GRAFICO 5-->
     <script>
@@ -615,6 +617,36 @@
 
         option5 && myChart5.setOption(option5);
     </script>
+
+<!--TABELA 1-->
+    <script>
+function pesquisarTabela1() {
+    var input = document.getElementById("pesquisar1");
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("tabela1");
+    var tr = table.getElementsByTagName("tr");
+
+    for (var i = 1; i < tr.length; i++) { // começa em 1 para ignorar o cabeçalho
+        var tds = tr[i].getElementsByTagName("th");
+        var found = false;
+
+        for (var j = 0; j < tds.length; j++) {
+            var td = tds[j];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        // Exibe ou oculta a linha com base no resultado
+        tr[i].style.display = found ? "" : "none";
+    }
+}
+</script>
+
 
 </body>
 

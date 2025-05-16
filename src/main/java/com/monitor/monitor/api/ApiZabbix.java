@@ -23,44 +23,7 @@ public class ApiZabbix {
         this.restTemplate = restTemplate; // Injeção do RestTemplate com SSL configurado
     }
 
-    //REQUISIÇÃO PARA TOTAL DE NOTAS EMITIDAS NO DIA
-    public List<TotalNf> buscarTotalNf() {
-        String url = "https://srvzabbixweb.br-atacadao.corp/api_jsonrpc.php";
-
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("jsonrpc", "2.0");
-        requestBody.put("method", "history.get");
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("output", "extend");
-        params.put("history", 4);
-        params.put("itemids", "3712327");
-        params.put("sortfield", "clock");
-        params.put("sortorder", "DESC");
-        params.put("limit", 1);
-
-        requestBody.put("params", params);
-        requestBody.put("id", 5);
-        requestBody.put("auth", "78e6ebb232ef422e3c2443256c4b6ac66eeebd2c9975cf90b9e02626d4f3ad22");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
-
-        Map<String, Object> respost = response.getBody();
-
-        List<TotalNf> totalNf = mapper.convertValue(
-                respost.get("result"), new TypeReference<List<TotalNf>>() {
-                }
-        );
-        return totalNf;
-
-    }
-
-    //REQUISIÇÃO PARA TEMPO MEDIO
+    //NFCE
     public List<TempoMedio> buscarTempoMedio() {
         String url = "https://srvzabbixweb.br-atacadao.corp/api_jsonrpc.php";
 
@@ -108,7 +71,7 @@ public class ApiZabbix {
         Map<String, Object> params = new HashMap<>();
         params.put("output", "extend");
         params.put("history", 4);
-        params.put("itemids", "3731699");
+        params.put("itemids", "3739000");
         params.put("sortfield", "clock");
         params.put("sortorder", "DESC");
         params.put("limit", 12);
@@ -204,4 +167,153 @@ public class ApiZabbix {
         );
         return dadosRegionais;
     }
+
+
+
+
+
+    //NFE
+    public List<TempoMedio> buscarTempoMedioNfe() {
+        String url = "https://srvzabbixweb.br-atacadao.corp/api_jsonrpc.php";
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("jsonrpc", "2.0");
+        requestBody.put("method", "history.get");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("output", "extend");
+        params.put("history", 4);
+        params.put("itemids", "3723803");
+        params.put("sortfield", "clock");
+        params.put("sortorder", "DESC");
+        params.put("limit", 30);
+
+        requestBody.put("params", params);
+        requestBody.put("id", 5);
+        requestBody.put("auth", "78e6ebb232ef422e3c2443256c4b6ac66eeebd2c9975cf90b9e02626d4f3ad22");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
+
+        Map<String, Object> resposta = response.getBody();
+
+        List<TempoMedio> TempoNfce = mapper.convertValue(
+                resposta.get("result"), new TypeReference<List<TempoMedio>>() {
+                }
+        );
+
+        return TempoNfce;
+    }
+
+    public List<EmissByHr> buscarEmissByHrNfe() {
+        String url = "https://srvzabbixweb.br-atacadao.corp/api_jsonrpc.php";
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("jsonrpc", "2.0");
+        requestBody.put("method", "history.get");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("output", "extend");
+        params.put("history", 4);
+        params.put("itemids", "3731699");
+        params.put("sortfield", "clock");
+        params.put("sortorder", "DESC");
+        params.put("limit", 12);
+
+        requestBody.put("params", params);
+        requestBody.put("id", 5);
+        requestBody.put("auth", "78e6ebb232ef422e3c2443256c4b6ac66eeebd2c9975cf90b9e02626d4f3ad22");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
+
+        Map<String, Object> resposta = response.getBody();
+
+        List<EmissByHr> emissByHr = mapper.convertValue(
+                resposta.get("result"), new TypeReference<List<EmissByHr>>() {
+                }
+        );
+
+        return emissByHr;
+    }
+
+    public List<TotalNfDia> buscarTotalNfDiaNfe() {
+        String url = "https://srvzabbixweb.br-atacadao.corp/api_jsonrpc.php";
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("jsonrpc", "2.0");
+        requestBody.put("method", "history.get");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("output", "extend");
+        params.put("history", 4);
+        params.put("itemids", "3712327");
+        params.put("sortfield", "clock");
+        params.put("sortorder", "DESC");
+        params.put("limit", 3);
+
+        requestBody.put("params", params);
+        requestBody.put("id", 5);
+        requestBody.put("auth", "78e6ebb232ef422e3c2443256c4b6ac66eeebd2c9975cf90b9e02626d4f3ad22");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
+
+        Map<String, Object> resposta = response.getBody();
+
+        List<TotalNfDia> totalNfDia = mapper.convertValue(
+                resposta.get("result"), new TypeReference<List<TotalNfDia>>() {
+                }
+        );
+
+        return totalNfDia;
+    }
+
+    public List<BuscaRegional> BuscaRegionalNfe() {
+        String url = "https://srvzabbixweb.br-atacadao.corp/api_jsonrpc.php";
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("jsonrpc", "2.0");
+        requestBody.put("method", "history.get");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("output", "extend");
+        params.put("history", 4);
+        params.put("itemids", "3738988");
+        params.put("sortfield", "clock");
+        params.put("sortorder", "DESC");
+        params.put("limit", 1);
+
+        requestBody.put("params", params);
+        requestBody.put("id", 5);
+        requestBody.put("auth", "78e6ebb232ef422e3c2443256c4b6ac66eeebd2c9975cf90b9e02626d4f3ad22");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
+
+        Map<String, Object> resposta = response.getBody();
+
+        List<BuscaRegional> dadosRegionais = mapper.convertValue(
+                resposta.get("result"), new TypeReference<List<BuscaRegional>>() {
+                }
+        );
+        return dadosRegionais;
+    }
+
 }
