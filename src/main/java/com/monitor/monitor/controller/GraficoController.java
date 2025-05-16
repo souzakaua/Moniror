@@ -28,14 +28,43 @@ public class GraficoController {
         List<Map<String, Object>> resultado = new ArrayList<Map<String, Object>>();
         for (TempoMedio t : tempos) {
             try {
-                String value = t.value(); // "2025-05-14 04:26:40 | TOTAL: 6 | MEDIA: 39"
+                String value = t.value();
 
                 String[] partes = value.split("\\|");
 
-                String horaCompleta = partes[0].trim().split(" ")[1]; // "04:26:40"
+                String horaCompleta = partes[0].trim().split(" ")[1];
                 String hora = horaCompleta.substring(0, 5); // "04"
 
-                String mediaStr = partes[2].replace("MEDIA:", "").trim(); // "39"
+                String mediaStr = partes[2].replace("MEDIA:", "").trim();
+
+                Map<String, Object> ponto = new HashMap<String, Object>();
+                ponto.put("hora", hora);
+                ponto.put("media", Integer.parseInt(mediaStr));
+
+                resultado.add(ponto);
+
+            } catch (Exception e) {
+                System.out.println("Erro ao processar tempo médio: " + t.value());
+            }
+        }
+
+        return resultado;
+    }
+    @GetMapping("/grafico-tempoNfe")
+    public List<Map<String, Object>> graficoTempoMedioNfe() {
+        List<TempoMedio> tempos = apiZabbix.buscarTempoMedioNfe();
+
+        List<Map<String, Object>> resultado = new ArrayList<Map<String, Object>>();
+        for (TempoMedio t : tempos) {
+            try {
+                String value = t.value();
+
+                String[] partes = value.split("\\|");
+
+                String horaCompleta = partes[0].trim().split(" ")[1];
+                String hora = horaCompleta.substring(0, 5); // "04"
+
+                String mediaStr = partes[2].replace("MEDIA:", "").trim();
 
                 Map<String, Object> ponto = new HashMap<String, Object>();
                 ponto.put("hora", hora);

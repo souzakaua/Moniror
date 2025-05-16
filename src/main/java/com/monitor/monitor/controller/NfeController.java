@@ -32,6 +32,7 @@ public class NfeController {
         List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDiaNfe();
         List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegionalNfe();
         List<Map<String, Object>> linhas = new ArrayList<>();
+        List<BuscaSemEmissao> semEmicao = apiZabbix.BuscaSemEmissao();
 
         for (TempoMedio item : temponfce) {
             String[] data = item.value().split(" ");
@@ -165,12 +166,17 @@ public class NfeController {
                 graficoRegional.put("tempoRegional", tempoMedio);
 
                 grafico3.add(graficoRegional);
-
-                System.out.println(tempoMedio);
             }
         }
 
         /* **********FIM GRAFICO 3(TEMPO MEDIO REGIONAL) ***********/
+
+        /* **********INICIO TABELA 2(FILIAIS QUE NÃO EMITIRAM) ***********/
+        String filiaisSemEmissao = semEmicao.get(0).value();
+
+
+
+        /* **********FIM TABELA 2(FILIAIS QUE NÃO EMITIRAM) ***********/
 
         model.addAttribute("linhas",linhas);
         model.addAttribute("grafico3", grafico3);

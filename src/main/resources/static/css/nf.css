@@ -313,7 +313,11 @@ table tr:nth-child(even) {
     color: rgb(67, 211, 67);
 }
 .negativo {
-    color: red;
+    color: rgb(243, 26, 26);
+}
+
+.vermelho {
+    color: rgb(199, 104, 104);
 }
 .neutro {
   color: orange;
