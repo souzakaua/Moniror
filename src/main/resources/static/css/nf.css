@@ -366,7 +366,7 @@ table tr:nth-child(even) {
     border-radius: 20px;
     font-size: 14px;
     color: rgb(255, 0, 0);
-    background-color: rgb(255, 204, 204);
+    background-color: rgba(254, 226, 192, 0.99);
     font-weight: bold;
 }
 
