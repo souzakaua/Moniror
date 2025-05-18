@@ -116,8 +116,10 @@
                         <th class="linhaTabela1" th:text="${l['data']}" scope="row"></th>
                         <th class="linhaTabela1" th:text="${l['hora']}" scope="row"></th>
                         <th class="linhaTabela1" th:text="${l['total']}" scope="row"></th>
-                        <th class="linhaTabela1" th:text="${l['media']}"
-                            th:classappend="${l['media']} > 30 ? 'vermelho' : ''" scope="row"></th>
+                        <th class="linhaTabela1">
+                            <span th:class="${l['media']} > 30 ? 'vermelho' : ''"
+                                  th:text="${l['media']}"></span>
+                        </th>
                         <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
                     </tr>
                 </tbody>
@@ -268,7 +270,7 @@
     <!--GRAFICO 2-->
     <script th:inline="javascript">
         $(document).ready(function () {
-            $.get('/api/grafico-tempoNfe', function (dados) {
+            $.get('/monitor/api/grafico-tempoNfe', function (dados) {
                 const horas = dados.map(p => p.hora).reverse();
                 const medias = dados.map(p => p.media).reverse();
 
@@ -483,7 +485,7 @@
         var myChart4 = echarts.init(document.getElementById('grafico4'));
         myChart4.showLoading();
 
-        $.get('/js/echart-geojsonbr.json', function (brazilJson) {
+        $.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
             myChart4.hideLoading();
             echarts.registerMap('Brazil', brazilJson);
 
