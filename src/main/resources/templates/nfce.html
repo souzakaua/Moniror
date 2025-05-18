@@ -104,8 +104,10 @@
                         <th class="linhaTabela1" th:text="${l['data']}" scope="row"></th>
                         <th class="linhaTabela1" th:text="${l['hora']}" scope="row"></th>
                         <th class="linhaTabela1" th:text="${l['total']}" scope="row"></th>
-                        <th class="linhaTabela1" th:text="${l['media']}"
-                            th:classappend="${l['media']} > 30 ? 'vermelho' : ''" scope="row"></th>
+                        <th class="linhaTabela1">
+                            <span th:class="${l['media']} > 30 ? 'vermelho' : ''"
+                                  th:text="${l['media']}"></span>
+                        </th>
                         <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
                     </tr>
                 </tbody>
