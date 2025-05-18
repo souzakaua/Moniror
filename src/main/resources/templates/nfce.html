@@ -291,7 +291,7 @@
     <!--GRAFICO 2-->
     <script th:inline="javascript">
         $(document).ready(function () {
-            $.get('/api/grafico-tempo', function (dados) {
+            $.get('/monitor/api/grafico-tempo', function (dados) {
                 const horas = dados.map(p => p.hora).reverse();
                 const medias = dados.map(p => p.media).reverse();
 
@@ -506,7 +506,7 @@ var dadosMapa = dadosGrafico3.map(item => {
 var myChart4 = echarts.init(document.getElementById('grafico4'));
 myChart4.showLoading();
 
-$.get('/js/echart-geojsonbr.json', function (brazilJson) {
+$.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
     myChart4.hideLoading();
     echarts.registerMap('Brazil', brazilJson);
 
