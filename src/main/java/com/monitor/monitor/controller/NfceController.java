@@ -24,30 +24,53 @@ public class NfceController {
     public String nfce(Model model) {
         List<TempoMedio> temponfce = apiZabbix.buscarTempoMedio();
         List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHr();
+        List<TesteApi> emissaoHoraTeste = apiZabbix.buscarTeste();
         List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDia();
         List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegional();
         List<Map<String, Object>> linhas = new ArrayList<>();
 
-        for (TempoMedio item : temponfce) {
-            String[] data = item.value().split(" ");
-            String dataInt = data[0];
-            String horas = data[1];
-            String totalNf = data[4];
-            String media = data[7];
+        /*TABELA 1 TEMPO MEDIO*/
 
-            // Converte para LocalDate
-            LocalDate dataConvertida = LocalDate.parse(dataInt); // formato ISO: yyyy-MM-dd
+        String temp = emissaoHoraTeste.get(0).value();
 
-            // Formata como dd/MM/yyyy
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String dataFormatada = dataConvertida.format(formatter);
+        String[] linhasTemp = temp.split("\n");
 
-        Map<String, Object> linha = new HashMap<>();
-            linha.put("data", dataFormatada);
-            linha.put("hora", horas);
-            linha.put("total", totalNf);
-            linha.put("media", media);
-            linhas.add(linha);
+        List<Map<String, Object>> table1 = new ArrayList<>();
+
+        for (String linha : linhasTemp) {
+
+            linha = linha.trim();
+
+            String[] partes = linha.split("\\|");
+
+            if (partes.length == 3) {
+                String dataTabela1 = partes[0].split(" ")[0].trim();
+                String horaTabela1 = partes[0].split(" ")[1].trim();
+                String totalTabela1 = partes[1].split(":")[1].trim();
+                String mediaTabela1 = partes[2].split(":")[1].trim();
+
+                LocalDate dataConvertida = LocalDate.parse(dataTabela1); // formato ISO: yyyy-MM-dd
+
+                // Formata como dd/MM/yyyy
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String dataFormatada = dataConvertida.format(formatter);
+
+//                System.out.println("dat:" +dataTabela1);
+//                System.out.println("hor:" +horaTabela1);
+//                System.out.println("total:" +totalTabela1);
+//                System.out.println("media tabela: " +mediaTabela1);
+
+
+                Map<String, Object> tabelaTempo = new HashMap<>();
+                tabelaTempo.put("dataTabela1", dataFormatada);
+                tabelaTempo.put("horaTabela1", horaTabela1);
+                tabelaTempo.put("totalTabela1", totalTabela1);
+                tabelaTempo.put("mediaTabela1", mediaTabela1);
+
+                table1.add(tabelaTempo);
+
+                model.addAttribute("table1", table1);
+            }
         }
 
         /* **********BOX 1 (TOTAL DIARIO) ***********/
@@ -113,9 +136,11 @@ public class NfceController {
 
         /* **********FIM BOX 3 (TEMPO MEDIO) ***********/
 
-        /* **********BOX 4 (SEM EMISSÃO) ***********/
+        /* **********BOX 4 (EMISSAO HORA) ***********/
         EmissByHr emissao1 = emissByHr.get(0);
         EmissByHr emissao2 = emissByHr.size() > 1 ? emissByHr.get(1) : new EmissByHr("valor vazio");
+
+
 
         String[] emitidos1 = emissao1.value().split(" ");
         String[] emitidos2 = emissao2.value().split(" ");
