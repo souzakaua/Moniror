@@ -381,23 +381,50 @@ table tr:nth-child(even) {
     justify-content: flex-end;
     width: 98%;
     position: relative;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .megaMenu { 
-    background-color: white;
-    width: 20%;
+    background-color:#353946;
+    width:auto;
     border-radius: 18px;
-    height: 200px;
+    height: 200px auto;
     position: absolute;
     top: 100%;
     right: 0;
     z-index: 1000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: none; /* oculto por padrão */
+    display: none;
+    color: whitesmoke;
+    flex-wrap: wrap;
+    font-weight: bold;
 }
 
 .megaMenu.show {
-    display: block;
+    display: flex;
+}
+
+.contMenu {
+    padding: 5%;
+    align-items: center;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.contMenu a {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.contMenu:hover {
+    background-color: #525664;
+    cursor: pointer;
+    }
+
+.iconMenu { 
+    height: 100px;
+}
+
+.iconNf {
+    filter: invert();
 }
 

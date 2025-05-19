@@ -21,8 +21,44 @@
     <div class="headerMenu">
         <img class="logo" th:src="@{/img/atacadao.png}" alt="logoatacadao" />
         <p>EMISSÃO NFCE</p>
-        <img class="menuIcon" th:src="@{/img/menu.png}" alt="menu" />
+        <img class="menuIcon" th:src="@{/img/menu.png}" id="toggleMenuBtn" alt="menu" />
     </div>
+    <div th:class="menu">
+        <div th:class="megaMenu" id="megaMenu">
+            <div th:class="contMenu">
+                <a th:href="@{https://srvsispro.br-atacadao.corp/monitor/nfce}">
+                <img class="iconMenu iconNf" th:src="@{/img/monNfce.png}" alt="">
+                <p>Monitor NFCE</p>
+                </a>
+            </div>
+            <div class="contMenu">
+                <a th:href="@{https://srvsispro.br-atacadao.corp/monitor/nfe}">
+                <img class="iconMenu iconNf" th:src="@{/img/monNfe.png}" alt="">
+                <p>Monitor NFE</p>
+                </a>
+            </div>
+            <div class="contMenu">
+                <a th:href="@{https://nfe.portal.br-atacadao.corp/GDeWeb_NFCe_AD/}" target="_blank">
+                <img class="iconMenu" th:src="@{/img/nfce.png}" alt="">
+                <p>Triang. NFCE</p>
+                </a>
+            </div>
+
+            <div class="contMenu">
+                <a th:href="@{http://nfe.portal.br-atacadao.corp/NFe_GDeWeb_AD/}" target="_blank">
+                <img class="iconMenu" th:src="@{/img/nfee.png}" alt="">
+                <p>Triang. NFE</p>
+                </a>
+            </div>
+            <div class="contMenu">
+                <a th:href="@{https://nfe.portal.br-atacadao.corp/Autenticacao_NFe_AD}" target="_blank">
+                <img class="iconMenu" th:src="@{/img/nfeAzul.avif}" alt="">
+                <p>Triang. Azul</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
 
     <div class="upBox">
         <div class="box box1"><br>
@@ -652,6 +688,14 @@ function pesquisarTabela1() {
     }
 }
 </script>
+    <script>
+        const toggleBtn = document.getElementById('toggleMenuBtn');
+        const megaMenu = document.getElementById('megaMenu');
+
+        toggleBtn.addEventListener('click', () => {
+            megaMenu.classList.toggle('show');
+        });
+    </script>
 
 
 </body>
