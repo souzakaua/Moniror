@@ -13,7 +13,7 @@
     <script>
         setTimeout(function () {
             location.reload();
-        }, 180000)
+        }, 120000)
     </script>
 </head>
 
@@ -142,13 +142,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="tr1" th:each="l : ${linhas}">
-                        <th class="linhaTabela1" th:text="${l['data']}" scope="row"></th>
-                        <th class="linhaTabela1" th:text="${l['hora']}" scope="row"></th>
-                        <th class="linhaTabela1" th:text="${l['total']}" scope="row"></th>
+                    <tr class="tr1" th:each="l : ${tableNfe1}">
+                        <th class="linhaTabela1" th:text="${l['dataTabelaNfe1']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['horaTabelaNfe1']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['totalTabelaNfe1']}" scope="row"></th>
                         <th class="linhaTabela1">
-                            <span th:class="${l['media']} > 30 ? 'vermelho' : ''"
-                                  th:text="${l['media']}"></span>
+                            <span th:class="${l['mediaTabelaNfe1']} > 30 ? 'vermelho' : ''"
+                                  th:text="${l['mediaTabelaNfe1']}"></span>
                         </th>
                         <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
                     </tr>
@@ -188,9 +188,6 @@
 
                 </tbody>
             </table>
-
-            <!--                <div id="grafico5"></div>-->
-    </div>
     </section>
     </div><br><br><br>
 
@@ -300,7 +297,7 @@
     <!--GRAFICO 2-->
     <script th:inline="javascript">
         $(document).ready(function () {
-            $.get('/monitor/api/grafico-tempoNfe', function (dados) {
+            $.get('/api/grafico-tempoNfe', function (dados) {
                 const horas = dados.map(p => p.hora).reverse();
                 const medias = dados.map(p => p.media).reverse();
 
@@ -371,7 +368,6 @@
             });
         });
     </script>
-
 
     <!--GRAFICO 3-->
     <script th:inline="javascript">
@@ -461,7 +457,6 @@
         /*]]>*/
     </script>
 
-
     <!--GRAFICO 4-->
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
@@ -515,7 +510,7 @@
         var myChart4 = echarts.init(document.getElementById('grafico4'));
         myChart4.showLoading();
 
-        $.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
+        $.get('/js/echart-geojsonbr.json', function (brazilJson) {
             myChart4.hideLoading();
             echarts.registerMap('Brazil', brazilJson);
 
@@ -584,7 +579,6 @@
     <!--        var chartDom = document.getElementById('grafico5');-->
     <!--        var myChart5 = echarts.init(chartDom);-->
     <!--        var option5;-->
-
     <!--        option5 = {-->
     <!--            backgroundColor: '#232631',-->
     <!--            tooltip: {-->
@@ -629,7 +623,6 @@
     <!--                }-->
     <!--            ]-->
     <!--        };-->
-
     <!--        option5 && myChart5.setOption(option5);-->
     <!--    </script>-->
 
@@ -699,7 +692,6 @@
             megaMenu.classList.toggle('show');
         });
     </script>
-
 
 </body>
 

@@ -56,7 +56,7 @@ public class ApiZabbix {
                 resposta.get("result"), new TypeReference<List<TempoMedio>>() {
                 }
         );
-
+        System.out.println(resposta);
         return TempoNfce;
     }
 
@@ -310,7 +310,7 @@ public class ApiZabbix {
         Map<String, Object> resposta = response.getBody();
 
         List<BuscaRegional> dadosRegionais = mapper.convertValue(
-                resposta.get("result"), new TypeReference<List<BuscaRegional>>() {
+                resposta.get("result"), new TypeReference<>() {
                 }
         );
         return dadosRegionais;
@@ -345,7 +345,7 @@ public class ApiZabbix {
         Map<String, Object> resposta = response.getBody();
 
         List<BuscaSemEmissao> semEmissao = mapper.convertValue(
-                resposta.get("result"), new TypeReference<List<BuscaSemEmissao>>() {
+                resposta.get("result"), new TypeReference<>() {
                 }
         );
         return semEmissao;
@@ -383,7 +383,7 @@ public class ApiZabbix {
         Map<String, Object> resposta = response.getBody();
 
         List<TesteApi> testeEmissHora = mapper.convertValue(
-                resposta.get("result"), new TypeReference<List<TesteApi>>() {
+                resposta.get("result"), new TypeReference<>() {
                 }
         );
         return testeEmissHora;

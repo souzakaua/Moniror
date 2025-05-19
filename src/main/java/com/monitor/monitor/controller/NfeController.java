@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/nfe")
 public class NfeController {
 
-
     private final ApiZabbix apiZabbix;
 
     public NfeController(ApiZabbix apiZabbix) {
@@ -28,32 +27,78 @@ public class NfeController {
     @GetMapping
     public String nfce(Model model) {
         List<TempoMedio> temponfce = apiZabbix.buscarTempoMedioNfe();
+        List<TesteApi> emissaoHoraNfeTeste = apiZabbix.buscarTeste();
         List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHrNfe();
         List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDiaNfe();
         List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegionalNfe();
-        List<Map<String, Object>> linhas = new ArrayList<>();
         List<BuscaSemEmissao> semEmicao = apiZabbix.BuscaSemEmissao();
+//        List<Map<String, Object>> linhas = new ArrayList<>();
+//
+//        for (TempoMedio item : temponfce) {
+//            String[] data = item.value().split(" ");
+//            String dataInt = data[0];
+//            String horas = data[1];
+//            String totalNf = data[4];
+//            String media = data[7];
+//
+//            // Converte para LocalDate
+//            LocalDate dataConvertida = LocalDate.parse(dataInt); // formato ISO: yyyy-MM-dd
+//
+//            // Formata como dd/MM/yyyy
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//            String dataFormatada = dataConvertida.format(formatter);
+//
+//            Map<String, Object> linha = new HashMap<>();
+//            linha.put("data", dataFormatada);
+//            linha.put("hora", horas);
+//            linha.put("total", totalNf);
+//            linha.put("media", media);
+//            linhas.add(linha);
+//        }
 
-        for (TempoMedio item : temponfce) {
-            String[] data = item.value().split(" ");
-            String dataInt = data[0];
-            String horas = data[1];
-            String totalNf = data[4];
-            String media = data[7];
 
-            // Converte para LocalDate
-            LocalDate dataConvertida = LocalDate.parse(dataInt); // formato ISO: yyyy-MM-dd
+        /*TABELA 1 TEMPO MEDIO*/
 
-            // Formata como dd/MM/yyyy
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String dataFormatada = dataConvertida.format(formatter);
+        String temp = emissaoHoraNfeTeste.get(0).value();
 
-            Map<String, Object> linha = new HashMap<>();
-            linha.put("data", dataFormatada);
-            linha.put("hora", horas);
-            linha.put("total", totalNf);
-            linha.put("media", media);
-            linhas.add(linha);
+        String[] linhasTemp = temp.split("\n");
+
+        List<Map<String, Object>> table1 = new ArrayList<>();
+
+        for (String linha : linhasTemp) {
+
+            linha = linha.trim();
+
+            String[] partes = linha.split("\\|");
+
+            if (partes.length == 3) {
+                String dataTabela1 = partes[0].split(" ")[0].trim();
+                String horaTabela1 = partes[0].split(" ")[1].trim();
+                String totalTabela1 = partes[1].split(":")[1].trim();
+                String mediaTabela1 = partes[2].split(":")[1].trim();
+
+                LocalDate dataConvertida = LocalDate.parse(dataTabela1); // formato ISO: yyyy-MM-dd
+
+                // Formata como dd/MM/yyyy
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String dataFormatada = dataConvertida.format(formatter);
+
+//               System.out.println("datNfe:" +dataTabela1);
+//                System.out.println("hor:" +horaTabela1);
+//                System.out.println("total:" +totalTabela1);
+//                System.out.println("media tabela: " +mediaTabela1);
+
+
+                Map<String, Object> tabelaTempo = new HashMap<>();
+                tabelaTempo.put("dataTabelaNfe1", dataFormatada);
+                tabelaTempo.put("horaTabelaNfe1", horaTabela1);
+                tabelaTempo.put("totalTabelaNfe1", totalTabela1);
+                tabelaTempo.put("mediaTabelaNfe1", mediaTabela1);
+
+                table1.add(tabelaTempo);
+
+                model.addAttribute("tableNfe1", table1);
+            }
         }
 
         /* **********BOX 1 (TOTAL DIARIO) ***********/
@@ -218,12 +263,9 @@ public class NfeController {
                 e.printStackTrace();
             }
         }
-
-
         model.addAttribute("tabelaSemEmissao", tabela2);
         /* **********FIM TABELA 2(FILIAIS QUE NÃO EMITIRAM) ***********/
 
-        model.addAttribute("linhas",linhas);
         model.addAttribute("grafico3", grafico3);
 
         return "nfe";

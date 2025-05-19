@@ -363,10 +363,10 @@ table tr:nth-child(even) {
     align-items: center;
     padding: 4px 8px;
     border: 1px solid rgb(255, 2, 2);
-    border-radius: 20px;
-    font-size: 14px;
+    border-radius: 15px;
+    font-size:15px;
     color: rgb(255, 0, 0);
-    background-color: rgba(254, 226, 192, 0.99);
+    background-color: none;
     font-weight: bold;
 }
 
