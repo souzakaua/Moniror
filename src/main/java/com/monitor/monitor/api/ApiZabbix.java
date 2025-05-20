@@ -393,7 +393,7 @@ public class ApiZabbix {
         Map<String, Object> params = new HashMap<>();
         params.put("output", "extend");
         params.put("history", 4);
-        params.put("itemids", "3740025");
+        params.put("itemids", "3740414");
         params.put("sortfield", "clock");
         params.put("sortorder", "DESC");
         params.put("limit", 1);

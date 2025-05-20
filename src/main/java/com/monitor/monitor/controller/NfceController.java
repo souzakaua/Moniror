@@ -50,6 +50,7 @@ public class NfceController {
                 String totalTabela1 = partes[1].split(":")[1].trim();
                 String mediaTabela1 = partes[2].split(":")[1].trim();
 
+
                 LocalDate dataConvertida = LocalDate.parse(dataTabela1);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String dataFormatada = dataConvertida.format(formatter);

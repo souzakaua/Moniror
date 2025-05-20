@@ -79,7 +79,7 @@
         <div class="box box2"><br>
             <p class="tituloBox">Quantidade de Documentos</p>
             <div class="valorBox">
-                <p th:text="${documentos1}"></p>
+                <p th:text="${table1[0].totalTabela1}"></p>
                 <span><i class="fa-solid fa-clock"></i></span>
             </div>
             <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${difDoc}" class="subValor positivo"></p>
@@ -90,14 +90,12 @@
         <div class="box box3"><br>
             <p class="tituloBox">Tempo Medio</p>
             <div class="valorBox">
-                <p th:text="${media1}+ ' seg'"></p>
+                <p th:text="${table1[0].mediaTabela1}+ ' seg'"></p>
                 <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
             </div>
-            <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}" class="subValor positivo">
-            </p>
-            <p style="color: rgb(67, 211, 67);" th:if="${media1} < ${media2}" th:text="' ↓ '+${difMedia}"
-                class="subValor negativo"></p>
-            <p th:if="${media1} == ${media2}" th:text="' - '+${difMedia}" class="subValor neutro"></p>
+            <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}" class="subValor positivo"></p>
+            <p style="color: rgb(67, 211, 67);" th:if="${media1} < ${media2}" th:text="' ↓ '+${difMedia}" class="subValor negativo"></p>
+            <p th:if="${media1} == ${media2}" th:text="' - '+${difMedia}" class="subValor neutro" ></p>
         </div>
 
         <div class="box box4"><br>
@@ -106,7 +104,7 @@
                 <p th:text="${emissao1}"></p>
                 <span><i class="fa-solid fa-print"></i></span>
             </div>
-            <p th:text="${difEmissao + 1} + ':00 / ' +  ${difEmissao + 2} + ':00'" class="subValor neutro"></p>
+            <p th:text="${difEmissao} + ':00 / ' +  ${difEmissao + 1} + ':00'" class="subValor neutro"></p>
         </div>
     </div>
 
@@ -142,13 +140,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="tr1" th:each="l : ${tableNfe1}">
-                        <th class="linhaTabela1" th:text="${l['dataTabelaNfe1']}" scope="row"></th>
-                        <th class="linhaTabela1" th:text="${l['horaTabelaNfe1']}" scope="row"></th>
-                        <th class="linhaTabela1" th:text="${l['totalTabelaNfe1']}" scope="row"></th>
+                    <tr class="tr1" th:each="l : ${table1}">
+                        <th class="linhaTabela1" th:text="${l['dataTabela1']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['horaTabela1']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['totalTabela1']}" scope="row"></th>
                         <th class="linhaTabela1">
-                            <span th:class="${l['mediaTabelaNfe1']} > 30 ? 'vermelho' : ''"
-                                  th:text="${l['mediaTabelaNfe1']}"></span>
+                            <span th:class="${l['mediaTabela1']} > 30 ? 'vermelho' : ''"
+                                  th:text="${l['mediaTabela1']}"></span>
                         </th>
                         <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
                     </tr>
