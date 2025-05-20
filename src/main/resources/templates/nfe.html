@@ -401,7 +401,6 @@
 
         var option2 = {
             backgroundColor: '#232631',
-            width: 1550,
             title: {
                 text: 'Tempo de Emissão - Regionais',
                 padding: 20,
@@ -433,7 +432,7 @@
                 {
                     data: seriesData,
                     type: 'bar',
-                    barWidth: 45,
+                    barWidth: 40,
                     showBackground: true,
                     backgroundStyle: {
                         color: 'rgba(255, 255, 255, 0.05)'
@@ -454,7 +453,10 @@
         };
 
         option2 && myChart2.setOption(option2);
-        /*]]>*/
+
+            window.addEventListener('resize', function () {
+        myChart2.resize();
+    });
     </script>
 
     <!--GRAFICO 4-->

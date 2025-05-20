@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,37 +26,13 @@ public class NfeController {
     }
 
     @GetMapping
-    public String nfce(Model model) {
+    public String nfe(Model model) {
         List<TempoMedio> temponfce = apiZabbix.buscarTempoMedioNfe();
-        List<TesteApi> emissaoHoraNfeTeste = apiZabbix.buscarTeste();
+        List<TesteApi> emissaoHoraNfeTeste = apiZabbix.buscarTabelaTempoMedioNfe();
         List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHrNfe();
         List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDiaNfe();
         List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegionalNfe();
         List<BuscaSemEmissao> semEmicao = apiZabbix.BuscaSemEmissao();
-//        List<Map<String, Object>> linhas = new ArrayList<>();
-//
-//        for (TempoMedio item : temponfce) {
-//            String[] data = item.value().split(" ");
-//            String dataInt = data[0];
-//            String horas = data[1];
-//            String totalNf = data[4];
-//            String media = data[7];
-//
-//            // Converte para LocalDate
-//            LocalDate dataConvertida = LocalDate.parse(dataInt); // formato ISO: yyyy-MM-dd
-//
-//            // Formata como dd/MM/yyyy
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//            String dataFormatada = dataConvertida.format(formatter);
-//
-//            Map<String, Object> linha = new HashMap<>();
-//            linha.put("data", dataFormatada);
-//            linha.put("hora", horas);
-//            linha.put("total", totalNf);
-//            linha.put("media", media);
-//            linhas.add(linha);
-//        }
-
 
         /*TABELA 1 TEMPO MEDIO*/
 
@@ -83,19 +60,16 @@ public class NfeController {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String dataFormatada = dataConvertida.format(formatter);
 
-//               System.out.println("datNfe:" +dataTabela1);
-//                System.out.println("hor:" +horaTabela1);
-//                System.out.println("total:" +totalTabela1);
-//                System.out.println("media tabela: " +mediaTabela1);
-
+                LocalTime horaConvertida = LocalTime.parse(horaTabela1);
+                String horaFormatada = horaConvertida.format(DateTimeFormatter.ofPattern("HH:mm"));
 
                 Map<String, Object> tabelaTempo = new HashMap<>();
                 tabelaTempo.put("dataTabelaNfe1", dataFormatada);
-                tabelaTempo.put("horaTabelaNfe1", horaTabela1);
+                tabelaTempo.put("horaTabelaNfe1", horaFormatada);
                 tabelaTempo.put("totalTabelaNfe1", totalTabela1);
                 tabelaTempo.put("mediaTabelaNfe1", mediaTabela1);
-
                 table1.add(tabelaTempo);
+
 
                 model.addAttribute("tableNfe1", table1);
             }

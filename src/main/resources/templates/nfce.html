@@ -76,7 +76,7 @@
         <div class="box box2"><br>
             <p class="tituloBox">Quantidade de Documentos</p>
             <div class="valorBox">
-                <p th:text="${documentos1}"></p>
+                <p th:text="${table1[0].totalTabela1}"></p>
                 <span><i class="fa-solid fa-clock"></i></span>
             </div>
             <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${difDoc}" class="subValor positivo"></p>
@@ -87,7 +87,7 @@
         <div class="box box3"><br>
             <p class="tituloBox">Tempo Medio</p>
             <div class="valorBox">
-                <p th:text="${media1}+ ' seg'"></p>
+                <p th:text="${table1[0].mediaTabela1}+ ' seg'"></p>
                 <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
             </div>
             <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}" class="subValor positivo"></p>
@@ -101,7 +101,7 @@
                 <p th:text="${emissao1}"></p>
                 <span><i class="fa-solid fa-print"></i></span>
             </div>
-            <p th:text="${difEmissao} + ':00 / ' +  ${difEmissao + 1} + ':00'" class="subValor neutro" ></p>
+            <p th:text="${difEmissao } + ':00 / ' +  ${difEmissao + 1} + ':00'" class="subValor neutro" ></p>
         </div>
     </div>
 
@@ -361,7 +361,6 @@
 
     var option2 = {
         backgroundColor: '#232631',
-        width: 1550,
         title: {
             text: 'Tempo de Emissão - Regionais',
             padding: 20,
@@ -393,7 +392,7 @@
             {
                 data: seriesData,
                 type: 'bar',
-                barWidth: 45,
+                barWidth: 40,
                 showBackground: true,
                 backgroundStyle: {
                     color: 'rgba(255, 255, 255, 0.05)'
@@ -414,6 +413,10 @@
     };
 
     option2 && myChart2.setOption(option2);
+
+    window.addEventListener('resize', function () {
+        myChart2.resize();
+    });
     /*]]>*/
 </script>
 

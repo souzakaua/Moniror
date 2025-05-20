@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -24,7 +25,7 @@ public class NfceController {
     public String nfce(Model model) {
         List<TempoMedio> temponfce = apiZabbix.buscarTempoMedio();
         List<EmissByHr> emissByHr = apiZabbix.buscarEmissByHr();
-        List<TesteApi> emissaoHoraTeste = apiZabbix.buscarTeste();
+        List<TesteApi> emissaoHoraTeste = apiZabbix.buscarTabelaTempoMedio();
         List<TotalNfDia> totalDiario = apiZabbix.buscarTotalNfDia();
         List<BuscaRegional> dadosRegional = apiZabbix.BuscaRegional();
         List<Map<String, Object>> linhas = new ArrayList<>();
@@ -49,26 +50,47 @@ public class NfceController {
                 String totalTabela1 = partes[1].split(":")[1].trim();
                 String mediaTabela1 = partes[2].split(":")[1].trim();
 
-                LocalDate dataConvertida = LocalDate.parse(dataTabela1); // formato ISO: yyyy-MM-dd
-
-                // Formata como dd/MM/yyyy
+                LocalDate dataConvertida = LocalDate.parse(dataTabela1);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String dataFormatada = dataConvertida.format(formatter);
 
-//                System.out.println("dat:" +dataTabela1);
-//                System.out.println("hor:" +horaTabela1);
-//                System.out.println("total:" +totalTabela1);
-//                System.out.println("media tabela: " +mediaTabela1);
-
+                LocalTime horaConvertida = LocalTime.parse(horaTabela1);
+                String horaFormatada = horaConvertida.format(DateTimeFormatter.ofPattern("HH:mm"));
 
                 Map<String, Object> tabelaTempo = new HashMap<>();
                 tabelaTempo.put("dataTabela1", dataFormatada);
-                tabelaTempo.put("horaTabela1", horaTabela1);
+                tabelaTempo.put("horaTabela1", horaFormatada);
                 tabelaTempo.put("totalTabela1", totalTabela1);
                 tabelaTempo.put("mediaTabela1", mediaTabela1);
 
                 table1.add(tabelaTempo);
 
+            if (table1.size() >= 2) {
+                try {
+                    int total1 = Integer.parseInt((String) table1.get(0).get("totalTabela1"));
+                    int total2 = Integer.parseInt((String) table1.get(1).get("totalTabela1"));
+                    int diferenca = Math.abs(total1 - total2);
+
+                    int totalMedia1 = Integer.parseInt((String) table1.get(0).get("mediaTabela1"));
+                    int totalMedia2 = Integer.parseInt((String) table1.get(1).get("mediaTabela1"));
+                    int diferencaMedia = Math.abs(totalMedia1 - totalMedia2 );
+
+                    System.out.println(total1);
+                    System.out.println(total2);
+                    System.out.println(diferenca);
+
+                    model.addAttribute("documentos1", total1);
+                    model.addAttribute("documentos2", total2);
+                    model.addAttribute("difDoc", diferenca);
+
+                    model.addAttribute("media1", totalMedia1);
+                    model.addAttribute("media2", totalMedia2);
+                    model.addAttribute("difMedia", diferencaMedia);
+                    model.addAttribute("difMedia", diferencaMedia);
+                } catch (NumberFormatException e) {
+                    model.addAttribute("diferencaTotal", 0); // fallback em caso de erro
+                }
+            }
                 model.addAttribute("table1", table1);
             }
         }
@@ -95,23 +117,23 @@ public class NfceController {
 
         /* **********BOX 2 (TOTAL QUANTIDADE DOC) ***********/
 
-        TempoMedio totalDoc1 = temponfce.get(0);
-        TempoMedio totalDoc2 = temponfce.size() > 1 ? temponfce.get(1) : new TempoMedio("valor vazio");
-
-        String[] doc1 = totalDoc1.value().split(" ");
-        String[] doc2 = totalDoc2.value().split(" ");
-
-        String documentos1 = doc1[4];
-        String documentos2 = doc2[4];
-
-        int notasAnteInt = Integer.parseInt(documentos1);
-        int notasAtualInt = Integer.parseInt(documentos2);
-
-        int difDoc = Math.abs(notasAtualInt - notasAnteInt);
-
-        model.addAttribute("documentos1",documentos1);
-        model.addAttribute("documentos2",documentos2);
-        model.addAttribute("difDoc",difDoc);
+//        TempoMedio totalDoc1 = temponfce.get(0);
+//        TempoMedio totalDoc2 = temponfce.size() > 1 ? temponfce.get(1) : new TempoMedio("valor vazio");
+//
+//        String[] doc1 = totalDoc1.value().split(" ");
+//        String[] doc2 = totalDoc2.value().split(" ");
+//
+//        String documentos1 = doc1[4];
+//        String documentos2 = doc2[4];
+//
+//        int notasAnteInt = Integer.parseInt(documentos1);
+//        int notasAtualInt = Integer.parseInt(documentos2);
+//
+//        int difDoc = Math.abs(notasAtualInt - notasAnteInt);
+//
+//
+//        model.addAttribute("documentos2",documentos2);
+//        model.addAttribute("difDoc",difDoc);
         /* **********FIM BOX 2 (QUANTIDADE DOC) ***********/
 
         /* **********BOX 3 (TEMPO MEDIO) ***********/
@@ -138,7 +160,7 @@ public class NfceController {
 
         /* **********BOX 4 (EMISSAO HORA) ***********/
         EmissByHr emissao1 = emissByHr.get(0);
-        EmissByHr emissao2 = emissByHr.size() > 1 ? emissByHr.get(1) : new EmissByHr("valor vazio");
+        EmissByHr emissao2 = emissByHr.get(0);
 
 
 
