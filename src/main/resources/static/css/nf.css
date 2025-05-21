@@ -92,21 +92,9 @@ body {
 }
 
 .tituloBox p {
-    margin-right: 3%;
-    margin-left: 8%;
-    flex-wrap: nowrap;
-}
 
-.titulo2 p {
-    margin-right: 1%;
-    margin-left: 2%;
-    width: 55%;
-}
+    width: 100%;
 
-.titulo3 p {
-    margin-right: 2%;
-    margin-left: 2%;
-    width: 37%;
 }
 
 .valorBox p {
