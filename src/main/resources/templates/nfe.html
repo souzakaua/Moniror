@@ -136,7 +136,6 @@
                         <th class="colunaTabela1" scope="col">Hora</th>
                         <th class="colunaTabela1" scope="col">Total NF</th>
                         <th class="colunaTabela1" scope="col">Media</th>
-                        <th class="colunaTabela1" scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,7 +147,6 @@
                             <span th:class="${l['mediaTabela1']} > 30 ? 'vermelho' : ''"
                                   th:text="${l['mediaTabela1']}"></span>
                         </th>
-                        <th class="linhaTabela1 iconInfo" scope="row"><i class="fa-solid fa-circle-info"></i></th>
                     </tr>
                 </tbody>
             </table>
@@ -295,7 +293,7 @@
     <!--GRAFICO 2-->
     <script th:inline="javascript">
         $(document).ready(function () {
-            $.get('/api/grafico-tempoNfe', function (dados) {
+            $.get('/monitor/api/grafico-tempoNfe', function (dados) {
                 const horas = dados.map(p => p.hora).reverse();
                 const medias = dados.map(p => p.media).reverse();
 
@@ -510,7 +508,7 @@
         var myChart4 = echarts.init(document.getElementById('grafico4'));
         myChart4.showLoading();
 
-        $.get('/js/echart-geojsonbr.json', function (brazilJson) {
+        $.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
             myChart4.hideLoading();
             echarts.registerMap('Brazil', brazilJson);
 
