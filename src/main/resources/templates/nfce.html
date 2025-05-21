@@ -11,9 +11,9 @@
     <title>Monitor de Serviços NF</title>
     <script th:src="@{https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js}"></script>
     <script>
-        setTimeout(function(){
-        location.reload();
-        },180000)
+        setTimeout(function () {
+            location.reload();
+        }, 180000)
     </script>
 </head>
 
@@ -27,33 +27,33 @@
         <div th:class="megaMenu" id="megaMenu">
             <div th:class="contMenu">
                 <a th:href="@{https://srvsispro.br-atacadao.corp/monitor/nfce}">
-                <img class="iconMenu iconNf" th:src="@{/img/monNfce.png}" alt="">
-                <p>Monitor NFCE</p>
+                    <img class="iconMenu iconNf" th:src="@{/img/monNfce.png}" alt="">
+                    <p>Monitor NFCE</p>
                 </a>
             </div>
             <div class="contMenu">
                 <a th:href="@{https://srvsispro.br-atacadao.corp/monitor/nfe}">
-                <img class="iconMenu iconNf" th:src="@{/img/monNfe.png}" alt="">
-                <p>Monitor NFE</p>
+                    <img class="iconMenu iconNf" th:src="@{/img/monNfe.png}" alt="">
+                    <p>Monitor NFE</p>
                 </a>
             </div>
             <div class="contMenu">
                 <a th:href="@{https://nfe.portal.br-atacadao.corp/GDeWeb_NFCe_AD/}" target="_blank">
-                <img class="iconMenu" th:src="@{/img/nfce.png}" alt="">
-                <p>Triang. NFCE</p>
+                    <img class="iconMenu" th:src="@{/img/nfce.png}" alt="">
+                    <p>Triang. NFCE</p>
                 </a>
             </div>
 
             <div class="contMenu">
                 <a th:href="@{http://nfe.portal.br-atacadao.corp/NFe_GDeWeb_AD/}" target="_blank">
-                <img class="iconMenu" th:src="@{/img/nfee.png}" alt="">
-                <p>Triang. NFE</p>
+                    <img class="iconMenu" th:src="@{/img/nfee.png}" alt="">
+                    <p>Triang. NFE</p>
                 </a>
             </div>
             <div class="contMenu">
                 <a th:href="@{https://nfe.portal.br-atacadao.corp/Autenticacao_NFe_AD}" target="_blank">
-                <img class="iconMenu" th:src="@{/img/nfeAzul.avif}" alt="">
-                <p>Triang. Azul</p>
+                    <img class="iconMenu" th:src="@{/img/nfeAzul.avif}" alt="">
+                    <p>Triang. Azul</p>
                 </a>
             </div>
         </div>
@@ -61,47 +61,90 @@
 
 
     <div class="upBox">
-        <div class="box box1"><br>
-            <p class="tituloBox">Diario</p>
-            <div class="valorBox">
-                <p th:text="${totalNotasDiaAtual}"></p>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="box box1"><br>
+                    <div class="tituloBox">
+                        <p>Diario</p>
+                        <span><i class="fa-regular fa-circle-question"></i></span>
+                    </div>
+                    <div class="valorBox">
+                        <p th:text="${totalNotasDiaAtual}"></p>
 
-                <span><i class="fa-solid fa-calendar-day"></i></span>
+                        <span><i class="fa-solid fa-calendar-day"></i></span>
+                    </div>
+                    <p th:if="${totalNF1} > ${totalNF2}" th:text="' ↑ '+${#numbers.formatDecimal(dif, 1, 3)}"
+                        class="subValor positivo"></p>
+                    <p th:if="${totalNF1} < ${totalNF2}" th:text="' ↓ '+${#numbers.formatDecimal(dif, 1, 3)}"
+                        class="subValor negativo"></p>
+                    <p th:if="${totalNF1} == ${totalNF2}" th:text="' - '+${#numbers.formatDecimal(dif, 1, 3)}"
+                        class="subValor neutro"></p>
+                </div>
+                <div class="card-back back1">Exibe o total de documentos processados no dia atual.</div>
             </div>
-            <p th:if="${totalNF1} > ${totalNF2}" th:text="' ↑ '+${#numbers.formatDecimal(dif, 1, 3)}" class="subValor positivo"></p>
-            <p th:if="${totalNF1} < ${totalNF2}" th:text="' ↓ '+${#numbers.formatDecimal(dif, 1, 3)}" class="subValor negativo"></p>
-            <p th:if="${totalNF1} == ${totalNF2}" th:text="' - '+${#numbers.formatDecimal(dif, 1, 3)}" class="subValor neutro"></p>
         </div>
 
-        <div class="box box2"><br>
-            <p class="tituloBox">Quantidade de Documentos</p>
-            <div class="valorBox">
-                <p th:text="${table1[0].totalTabela1}"></p>
-                <span><i class="fa-solid fa-clock"></i></span>
+
+        <div class="card" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="box box2"><br>
+                    <div class="tituloBox titulo2">
+                        <p>Quant. Documentos</p>
+                        <span><i class="fa-regular fa-circle-question"></i></span>
+                    </div>
+                    <div class="valorBox">
+                        <p th:text="${table1[0].totalTabela1}"></p>
+                        <span><i class="fa-solid fa-clock"></i></span>
+                    </div>
+                    <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${difDoc}" class="subValor positivo"></p>
+                    <p th:if="${documentos1} < ${documentos2}" th:text="' ↓ '+${difDoc}" class="subValor negativo"></p>
+                    <p th:if="${documentos1} == ${documentos2}" th:text="' - '+${difDoc}" class="subValor neutro"></p>
+                </div>
+                <div class="card-back back2">Mostra o número total de documentos emitidos, com a diferença em relação ao
+                    período anterior.</div>
             </div>
-            <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${difDoc}" class="subValor positivo"></p>
-            <p th:if="${documentos1} < ${documentos2}" th:text="' ↓ '+${difDoc}" class="subValor negativo"></p>
-            <p th:if="${documentos1} == ${documentos2}" th:text="' - '+${difDoc}" class="subValor neutro"></p>
         </div>
 
-        <div class="box box3"><br>
-            <p class="tituloBox">Tempo Medio</p>
-            <div class="valorBox">
-                <p th:text="${table1[0].mediaTabela1}+ ' seg'"></p>
-                <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
+
+        <div class="card" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="box box3"><br>
+                    <div class="tituloBox titulo3">
+                        <p>Tempo Médio</p>
+                        <span><i class="fa-regular fa-circle-question"></i></span>
+                    </div>
+                    <div class="valorBox">
+                        <p th:text="${table1[0].mediaTabela1}+ ' seg'"></p>
+                        <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
+                    </div>
+                    <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}"
+                        class="subValor positivo">
+                    </p>
+                    <p style="color: rgb(67, 211, 67);" th:if="${media1} < ${media2}" th:text="' ↓ '+${difMedia}"
+                        class="subValor negativo"></p>
+                    <p th:if="${media1} == ${media2}" th:text="' - '+${difMedia}" class="subValor neutro"></p>
+                </div>
+                <div class="card-back back3">Indica o tempo médio de emissão dos documentos fiscais em segundos. A
+                    variação mostra se o tempo aumentou ou diminuiu em relação ao período anterior.</div>
             </div>
-            <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}" class="subValor positivo"></p>
-            <p style="color: rgb(67, 211, 67);" th:if="${media1} < ${media2}" th:text="' ↓ '+${difMedia}" class="subValor negativo"></p>
-            <p th:if="${media1} == ${media2}" th:text="' - '+${difMedia}" class="subValor neutro" ></p>
         </div>
 
-        <div class="box box4"><br>
-            <p class="tituloBox">Emissão na ultima hora</p>
-            <div class="valorBox">
-                <p th:text="${emissao1}"></p>
-                <span><i class="fa-solid fa-print"></i></span>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="box box4"><br>
+                    <div class="tituloBox titulo2">
+                        <p>Emissão ultima hora</p>
+                        <span><i class="fa-regular fa-circle-question"></i></span>
+                    </div>
+                    <div class="valorBox">
+                        <p th:text="${emissao1}"></p>
+                        <span><i class="fa-solid fa-print"></i></span>
+                    </div>
+                    <p th:text="${difEmissao } + ':00 / ' +  ${difEmissao + 1} + ':00'" class="subValor neutro"></p>
+                </div>
+                <div class="card-back back4">Apresenta a quantidade de documentos emitidos na última hora, com indicação
+                    do intervalo de tempo monitorado.</div>
             </div>
-            <p th:text="${difEmissao } + ':00 / ' +  ${difEmissao + 1} + ':00'" class="subValor neutro" ></p>
         </div>
     </div>
 
@@ -122,7 +165,8 @@
                 </div>
                 <div class="pesquisa">
                     <span><i class="fa-solid fa-magnifying-glass"></i></span>
-                    <input class="pesquisaTableInput" id="pesquisar1" onkeyup="pesquisarTabela1()" type="text" placeholder="Pesquisar...">
+                    <input class="pesquisaTableInput" id="pesquisar1" onkeyup="pesquisarTabela1()" type="text"
+                        placeholder="Pesquisar...">
                 </div>
             </div>
             <table cellspacing="0" id="tabela1">
@@ -141,7 +185,7 @@
                         <th class="linhaTabela1" th:text="${l['totalTabela1']}" scope="row"></th>
                         <th class="linhaTabela1">
                             <span th:class="${l['mediaTabela1']} > 30 ? 'vermelho' : ''"
-                                  th:text="${l['mediaTabela1']}"></span>
+                                th:text="${l['mediaTabela1']}"></span>
                         </th>
                     </tr>
                 </tbody>
@@ -185,7 +229,7 @@
         }
 
         // Valor e gráfico
-        const valor = [[${media1}]];
+        const valor = [[${ media1 }]];
         const corDinamica = getGradientColor(valor);
 
         const myChart = echarts.init(document.getElementById('main'));
@@ -277,36 +321,36 @@
                         axisPointer: {
                         }
                     },
-                     xAxis: {
-                    type: 'category',
-                    data: horas,
-                    axisLabel: {
-                        interval: 3 // Mostra um rótulo a cada N itens (0 = todos, 1 = pula 1, 2 = pula 2...)
+                    xAxis: {
+                        type: 'category',
+                        data: horas,
+                        axisLabel: {
+                            interval: 3 // Mostra um rótulo a cada N itens (0 = todos, 1 = pula 1, 2 = pula 2...)
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                type: 'dashed', // ← linhas pontilhadas
+                                color: '#999',  // cor da linha
+                                width: 0.5        // espessura da linha
+                            }
+                        },
+                        boundaryGap: false
                     },
-                    splitLine: {
-                    show: true,
-                    lineStyle: {
-                        type: 'dashed', // ← linhas pontilhadas
-                        color: '#999',  // cor da linha
-                        width: 0.5        // espessura da linha
-                        }
-                    },
-                    boundaryGap: false
-                },
                     yAxis: {
-                    type: 'value',
-                    splitLine: {
-                    show: true,
-                    lineStyle: {
-                        type: 'dashed', // ← linhas pontilhadas
-                        color: '#999',  // cor da linha
-                        width: 0.5        // espessura da linha
+                        type: 'value',
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                type: 'dashed', // ← linhas pontilhadas
+                                color: '#999',  // cor da linha
+                                width: 0.5        // espessura da linha
+                            }
+                        },
+                        max: function (value) {
+                            return value.max < 100 ? 70 : value.max;
                         }
                     },
-                    max: function (value){
-                    return value.max < 100 ? 70 : value.max;
-                    }
-                },
                     series: [
                         {
                             data: medias,
@@ -328,213 +372,213 @@
 
 
     <!--GRAFICO 3-->
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var dadosGrafico3 = [[${grafico3}]];
-    var categorias = dadosGrafico3.map(item => item.estado);
-    var tempos = dadosGrafico3.map(item => parseFloat(item.tempoRegional));
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var dadosGrafico3 = [[${ grafico3 }]];
+        var categorias = dadosGrafico3.map(item => item.estado);
+        var tempos = dadosGrafico3.map(item => parseFloat(item.tempoRegional));
 
-    var tempoLimite = 30; // segundos
+        var tempoLimite = 30; // segundos
 
-    var seriesData = tempos.map((valor, index) => {
-        return {
-            value: valor,
-            itemStyle: {
-                borderRadius: [10, 10, 0, 0],
-                color: valor >= tempoLimite
-                    ? new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: 'rgba(255, 0, 0, 1)' },
-                        { offset: 1, color: 'rgba(255, 100, 100, 1)' }
-                    ])
-                    : new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: 'rgba(0, 126, 90, 1)' },
-                        { offset: 1, color: 'rgb(70, 161, 128)' }
-                    ])
-            }
-        };
-    });
-
-    var chartDom = document.getElementById('grafico3');
-    var myChart2 = echarts.init(chartDom, 'dark');
-
-    var option2 = {
-        backgroundColor: '#232631',
-        title: {
-            text: 'Tempo de Emissão - Regionais',
-            padding: 20,
-            left: 'left',
-            textStyle: {
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: 'white'
-            },
-        },
-        tooltip: {},
-        xAxis: {
-            type: 'category',
-            data: categorias,
-            axisLine: { lineStyle: { color: '#aaa' } },
-            axisLabel: {
-                color: '#ccc',
-                interval: 0,
-                rotate: 0
-            }
-        },
-        yAxis: {
-            type: 'value',
-            axisLine: { lineStyle: { color: '#aaa' } },
-            axisLabel: { color: '#ccc' },
-            splitLine: { lineStyle: { color: '#333' } }
-        },
-        series: [
-            {
-                data: seriesData,
-                type: 'bar',
-                barWidth: 40,
-                showBackground: true,
-                backgroundStyle: {
-                    color: 'rgba(255, 255, 255, 0.05)'
-                },
-                label: {
-                    show: true,
-                    position: 'top', // Altera de 'inside' para 'top'
-                    color: 'white',
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                    formatter: function(params) {
-                        return Math.round(params.value) + '';
-                    }
+        var seriesData = tempos.map((valor, index) => {
+            return {
+                value: valor,
+                itemStyle: {
+                    borderRadius: [10, 10, 0, 0],
+                    color: valor >= tempoLimite
+                        ? new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(255, 0, 0, 1)' },
+                            { offset: 1, color: 'rgba(255, 100, 100, 1)' }
+                        ])
+                        : new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(0, 126, 90, 1)' },
+                            { offset: 1, color: 'rgb(70, 161, 128)' }
+                        ])
                 }
+            };
+        });
 
-            }
-        ]
-    };
+        var chartDom = document.getElementById('grafico3');
+        var myChart2 = echarts.init(chartDom, 'dark');
 
-    option2 && myChart2.setOption(option2);
+        var option2 = {
+            backgroundColor: '#232631',
+            title: {
+                text: 'Tempo de Emissão - Regionais',
+                padding: 20,
+                left: 'left',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    color: 'white'
+                },
+            },
+            tooltip: {},
+            xAxis: {
+                type: 'category',
+                data: categorias,
+                axisLine: { lineStyle: { color: '#aaa' } },
+                axisLabel: {
+                    color: '#ccc',
+                    interval: 0,
+                    rotate: 0
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#aaa' } },
+                axisLabel: { color: '#ccc' },
+                splitLine: { lineStyle: { color: '#333' } }
+            },
+            series: [
+                {
+                    data: seriesData,
+                    type: 'bar',
+                    barWidth: 40,
+                    showBackground: true,
+                    backgroundStyle: {
+                        color: 'rgba(255, 255, 255, 0.05)'
+                    },
+                    label: {
+                        show: true,
+                        position: 'top', // Altera de 'inside' para 'top'
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 15,
+                        formatter: function (params) {
+                            return Math.round(params.value) + '';
+                        }
+                    }
 
-    window.addEventListener('resize', function () {
-        myChart2.resize();
-    });
-    /*]]>*/
-</script>
+                }
+            ]
+        };
+
+        option2 && myChart2.setOption(option2);
+
+        window.addEventListener('resize', function () {
+            myChart2.resize();
+        });
+        /*]]>*/
+    </script>
 
 
     <!--GRAFICO 4-->
     <script type="text/javascript" th:inline="javascript">
-/*<![CDATA[*/
-var dadosGrafico3 = [[${grafico3}]];
-var tempoLimite =30;
+        /*<![CDATA[*/
+        var dadosGrafico3 = [[${ grafico3 }]];
+        var tempoLimite = 30;
 
-// Mapa de siglas para nomes completos dos estados
-var estadoMap = {
-    "AC": "Acre",
-    "AL": "Alagoas",
-    "AP": "Amapá",
-    "AM": "Amazonas",
-    "BA": "Bahia",
-    "CE": "Ceará",
-    "DF": "Distrito Federal",
-    "ES": "Espírito Santo",
-    "GO": "Goiás",
-    "MA": "Maranhão",
-    "MT": "Mato Grosso",
-    "MS": "Mato Grosso do Sul",
-    "MG": "Minas Gerais",
-    "PA": "Pará",
-    "PB": "Paraíba",
-    "PR": "Paraná",
-    "PE": "Pernambuco",
-    "PI": "Piauí",
-    "RJ": "Rio de Janeiro",
-    "RN": "Rio Grande do Norte",
-    "RS": "Rio Grande do Sul",
-    "RO": "Rondônia",
-    "RR": "Roraima",
-    "SC": "Santa Catarina",
-    "SP": "São Paulo",
-    "SE": "Sergipe",
-    "TO": "Tocantins"
-};
+        // Mapa de siglas para nomes completos dos estados
+        var estadoMap = {
+            "AC": "Acre",
+            "AL": "Alagoas",
+            "AP": "Amapá",
+            "AM": "Amazonas",
+            "BA": "Bahia",
+            "CE": "Ceará",
+            "DF": "Distrito Federal",
+            "ES": "Espírito Santo",
+            "GO": "Goiás",
+            "MA": "Maranhão",
+            "MT": "Mato Grosso",
+            "MS": "Mato Grosso do Sul",
+            "MG": "Minas Gerais",
+            "PA": "Pará",
+            "PB": "Paraíba",
+            "PR": "Paraná",
+            "PE": "Pernambuco",
+            "PI": "Piauí",
+            "RJ": "Rio de Janeiro",
+            "RN": "Rio Grande do Norte",
+            "RS": "Rio Grande do Sul",
+            "RO": "Rondônia",
+            "RR": "Roraima",
+            "SC": "Santa Catarina",
+            "SP": "São Paulo",
+            "SE": "Sergipe",
+            "TO": "Tocantins"
+        };
 
-// Converte os dados com base nas siglas
-var dadosMapa = dadosGrafico3.map(item => {
-    var nomeCompleto = estadoMap[item.estado];
-    var valor = parseFloat(item.tempoRegional);
-    return {
-        name: nomeCompleto,
-        value: valor,
-        itemStyle: {
-            areaColor: valor >= tempoLimite ? 'red' : '#3a3f4b'
-        }
-    };
-});
-
-var myChart4 = echarts.init(document.getElementById('grafico4'));
-myChart4.showLoading();
-
-$.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
-    myChart4.hideLoading();
-    echarts.registerMap('Brazil', brazilJson);
-
-    var option = {
-        backgroundColor: '#232631',
-        title: {
-            text: 'Tempo de Emissão - Brasil',
-            subtext: 'NFCE',
-            padding: 20,
-            left: 'left',
-            textStyle: {
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: 'white'
-            },
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: function (params) {
-                return params.name + '<br/>Tempo médio: ' + (params.value ? Math.round(params.value) + 's' : 'Normal');
-            }
-        },
-        toolbox: {
-            show: true,
-            left: 'right',
-            top: 'top',
-            feature: {
-                dataView: { readOnly: false },
-                restore: {},
-                saveAsImage: {}
-            }
-        },
-        series: [
-            {
-                name: 'Tempo de Emissão',
-                type: 'map',
-                map: 'Brazil',
-                roam: true,
+        // Converte os dados com base nas siglas
+        var dadosMapa = dadosGrafico3.map(item => {
+            var nomeCompleto = estadoMap[item.estado];
+            var valor = parseFloat(item.tempoRegional);
+            return {
+                name: nomeCompleto,
+                value: valor,
                 itemStyle: {
-                    areaColor: '#3a3f4b',
-                    borderColor: '#999',
-                    borderWidth: 0.5
-                },
-                emphasis: {
-                    label: {
-                        show: true,
+                    areaColor: valor >= tempoLimite ? 'red' : '#3a3f4b'
+                }
+            };
+        });
+
+        var myChart4 = echarts.init(document.getElementById('grafico4'));
+        myChart4.showLoading();
+
+        $.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
+            myChart4.hideLoading();
+            echarts.registerMap('Brazil', brazilJson);
+
+            var option = {
+                backgroundColor: '#232631',
+                title: {
+                    text: 'Tempo de Emissão - Brasil',
+                    subtext: 'NFCE',
+                    padding: 20,
+                    left: 'left',
+                    textStyle: {
+                        fontSize: 16,
+                        fontWeight: 'bold',
                         color: 'white'
                     },
-                    itemStyle: {
-                        borderColor: '#fff',
-                        borderWidth: 1
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        return params.name + '<br/>Tempo médio: ' + (params.value ? Math.round(params.value) + 's' : 'Normal');
                     }
                 },
-                data: dadosMapa
-            }
-        ]
-    };
+                toolbox: {
+                    show: true,
+                    left: 'right',
+                    top: 'top',
+                    feature: {
+                        dataView: { readOnly: false },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                series: [
+                    {
+                        name: 'Tempo de Emissão',
+                        type: 'map',
+                        map: 'Brazil',
+                        roam: true,
+                        itemStyle: {
+                            areaColor: '#3a3f4b',
+                            borderColor: '#999',
+                            borderWidth: 0.5
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                color: 'white'
+                            },
+                            itemStyle: {
+                                borderColor: '#fff',
+                                borderWidth: 1
+                            }
+                        },
+                        data: dadosMapa
+                    }
+                ]
+            };
 
-    myChart4.setOption(option);
-});
-/*]]>*/
-</script>
+            myChart4.setOption(option);
+        });
+        /*]]>*/
+    </script>
 
     <!--GRAFICO 5-->
     <script>
@@ -590,34 +634,34 @@ $.get('/monitor/js/echart-geojsonbr.json', function (brazilJson) {
         option5 && myChart5.setOption(option5);
     </script>
 
-<!--TABELA 1-->
+    <!--TABELA 1-->
     <script>
-function pesquisarTabela1() {
-    var input = document.getElementById("pesquisar1");
-    var filter = input.value.toUpperCase();
-    var table = document.getElementById("tabela1");
-    var tr = table.getElementsByTagName("tr");
+        function pesquisarTabela1() {
+            var input = document.getElementById("pesquisar1");
+            var filter = input.value.toUpperCase();
+            var table = document.getElementById("tabela1");
+            var tr = table.getElementsByTagName("tr");
 
-    for (var i = 1; i < tr.length; i++) { // começa em 1 para ignorar o cabeçalho
-        var tds = tr[i].getElementsByTagName("th");
-        var found = false;
+            for (var i = 1; i < tr.length; i++) { // começa em 1 para ignorar o cabeçalho
+                var tds = tr[i].getElementsByTagName("th");
+                var found = false;
 
-        for (var j = 0; j < tds.length; j++) {
-            var td = tds[j];
-            if (td) {
-                var txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    found = true;
-                    break;
+                for (var j = 0; j < tds.length; j++) {
+                    var td = tds[j];
+                    if (td) {
+                        var txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
                 }
+
+                // Exibe ou oculta a linha com base no resultado
+                tr[i].style.display = found ? "" : "none";
             }
         }
-
-        // Exibe ou oculta a linha com base no resultado
-        tr[i].style.display = found ? "" : "none";
-    }
-}
-</script>
+    </script>
     <script>
         const toggleBtn = document.getElementById('toggleMenuBtn');
         const megaMenu = document.getElementById('megaMenu');
