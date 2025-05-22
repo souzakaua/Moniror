@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -42,6 +43,8 @@ public class NfeController {
 
         List<Map<String, Object>> table1 = new ArrayList<>();
 
+        DecimalFormat formate = new DecimalFormat("#,##0");
+
         for (String linha : linhasTemp) {
 
             linha = linha.trim();
@@ -54,6 +57,11 @@ public class NfeController {
                 String totalTabela1 = partes[1].split(":")[1].trim();
                 String mediaTabela1 = partes[2].split(":")[1].trim();
 
+                DecimalFormat formater = new DecimalFormat("#,##0");
+                double totalTabelaF = Double.parseDouble(totalTabela1);
+                String totalTabelaForm = formater.format(totalTabelaF);
+
+
                 LocalDate dataConvertida = LocalDate.parse(dataTabela1);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String dataFormatada = dataConvertida.format(formatter);
@@ -64,6 +72,7 @@ public class NfeController {
                 Map<String, Object> tabelaTempo = new HashMap<>();
                 tabelaTempo.put("dataTabela1", dataFormatada);
                 tabelaTempo.put("horaTabela1", horaFormatada);
+                tabelaTempo.put("totalTabelaF", totalTabelaForm);
                 tabelaTempo.put("totalTabela1", totalTabela1);
                 tabelaTempo.put("mediaTabela1", mediaTabela1);
 
@@ -71,15 +80,18 @@ public class NfeController {
 
                 if (table1.size() >= 2) {
                     try {
-                        int total1 = Integer.parseInt((String) table1.get(0).get("totalTabela1"));
-                        int total2 = Integer.parseInt((String) table1.get(1).get("totalTabela1"));
-                        int diferenca = Math.abs(total1 - total2);
+                        double total1 = Double.parseDouble((String) table1.get(0).get("totalTabela1"));
+                        double total2 = Double.parseDouble((String) table1.get(1).get("totalTabela1"));
+                        double diferenca = Math.abs(total1 - total2);
+
+                        String documentos1Formatado = formate.format(total1);
 
                         int totalMedia1 = Integer.parseInt((String) table1.get(0).get("mediaTabela1"));
                         int totalMedia2 = Integer.parseInt((String) table1.get(1).get("mediaTabela1"));
                         int diferencaMedia = Math.abs(totalMedia1 - totalMedia2 );
 
                         model.addAttribute("documentos1", total1);
+                        model.addAttribute("documentosForm", documentos1Formatado);
                         model.addAttribute("documentos2", total2);
                         model.addAttribute("difDoc", diferenca);
 
@@ -147,13 +159,15 @@ public class NfeController {
         String totalEmitidos1 = emitidos1[6];
         String totalEmitidos2 = emitidos2[2];
 
-        int totalEmissao1 = Integer.parseInt(totalEmitidos1);
+        double totalEmissao1 = Double.parseDouble(totalEmitidos1);
         int totalEmissao2 = Integer.parseInt(totalEmitidos2);
+
+        String totalEmissaoForm = formate.format(totalEmissao1);
 
 //        int difEmissao = Math.abs(totalEmissao1 - totalEmissao2);
 
 
-        model.addAttribute("emissao1", totalEmissao1);
+        model.addAttribute("emissao1", totalEmissaoForm);
         model.addAttribute("difEmissao", totalEmissao2);
         /* **********FIM BOX 4 (EMISSÃO POR HORA) ***********/
 

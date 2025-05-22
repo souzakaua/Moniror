@@ -73,9 +73,9 @@
 
                         <span><i class="fa-solid fa-calendar-day"></i></span>
                     </div>
-                    <p th:if="${totalNF1} > ${totalNF2}" th:text="' ↑ '+${#numbers.formatDecimal(dif, 1, 3)}"
+                    <p th:if="${totalNF1} > ${totalNF2}" th:text="' ↑ '+${#numbers.formatDecimal(dif, 1, 0)}"
                         class="subValor positivo"></p>
-                    <p th:if="${totalNF1} < ${totalNF2}" th:text="' ↓ '+${#numbers.formatDecimal(dif, 1, 3)}"
+                    <p th:if="${totalNF1} < ${totalNF2}" th:text="' ↓ '+${#numbers.formatDecimal(dif, 1, 0)}"
                         class="subValor negativo"></p>
                     <p th:if="${totalNF1} == ${totalNF2}" th:text="' - '+${#numbers.formatDecimal(dif, 1, 3)}"
                         class="subValor neutro"></p>
@@ -93,12 +93,12 @@
                         
                     </div>
                     <div class="valorBox">
-                        <p th:text="${table1[0].totalTabela1}"></p>
+                        <p th:text="${documentosForm}"></p>
                         <span><i class="fa-solid fa-clock"></i></span>
                     </div>
-                    <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${difDoc}" class="subValor positivo"></p>
-                    <p th:if="${documentos1} < ${documentos2}" th:text="' ↓ '+${difDoc}" class="subValor negativo"></p>
-                    <p th:if="${documentos1} == ${documentos2}" th:text="' - '+${difDoc}" class="subValor neutro"></p>
+                    <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor positivo"></p>
+                    <p th:if="${documentos1} < ${documentos2}" th:text="' ↓ '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor negativo"></p>
+                    <p th:if="${documentos1} == ${documentos2}" th:text="' - '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor neutro"></p>
                 </div>
                 <div class="card-back back2">Mostra o número total de documentos emitidos, com a diferença em relação ao
                     período anterior.</div>
@@ -181,7 +181,7 @@
                     <tr class="tr1" th:each="l : ${table1}">
                         <th class="linhaTabela1" th:text="${l['dataTabela1']}" scope="row"></th>
                         <th class="linhaTabela1" th:text="${l['horaTabela1']}" scope="row"></th>
-                        <th class="linhaTabela1" th:text="${l['totalTabela1']}" scope="row"></th>
+                        <th class="linhaTabela1" th:text="${l['totalTabelaF']}" scope="row"></th>
                         <th class="linhaTabela1">
                             <span th:class="${l['mediaTabela1']} > 30 ? 'vermelho' : ''"
                                 th:text="${l['mediaTabela1']}"></span>
