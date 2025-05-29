@@ -73,11 +73,11 @@
 
                         <span><i class="fa-solid fa-calendar-day"></i></span>
                     </div>
-                    <p th:if="${totalNF1} > ${totalNF2}" th:text="' ↑ '+${#numbers.formatDecimal(dif, 1, 3)}"
+                    <p th:if="${totalNF1 ?: 0} > ${totalNF2 ?: 0}" th:text="' ↑ '+${#numbers.formatDecimal(dif, 1, 3)}"
                         class="subValor positivo"></p>
-                    <p th:if="${totalNF1} < ${totalNF2}" th:text="' ↓ '+${#numbers.formatDecimal(dif, 1, 3)}"
+                    <p th:if="${totalNF1 ?: 0} < ${totalNF2 ?: 0}" th:text="' ↓ '+${#numbers.formatDecimal(dif, 1, 3)}"
                         class="subValor negativo"></p>
-                    <p th:if="${totalNF1} == ${totalNF2}" th:text="' - '+${#numbers.formatDecimal(dif, 1, 3)}"
+                    <p th:if="${totalNF1 ?: 0} == ${totalNF2 ?: 0}" th:text="' - '+${#numbers.formatDecimal(dif, 1, 3)}"
                         class="subValor neutro"></p>
                 </div>
                 <div class="card-back back1">Exibe o total de documentos processados no dia atual.</div>
@@ -90,15 +90,14 @@
                 <div class="box box2"><br>
                     <div class="tituloBox titulo2">
                         <p>Quant. Documentos <span><i class="fa-regular fa-circle-question"></i></span></p>
-                        
                     </div>
                     <div class="valorBox">
                         <p th:text="${documentosForm}"></p>
                         <span><i class="fa-solid fa-clock"></i></span>
                     </div>
-                    <p th:if="${documentos1} > ${documentos2}" th:text="' ↑ '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor positivo"></p>
-                    <p th:if="${documentos1} < ${documentos2}" th:text="' ↓ '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor negativo"></p>
-                    <p th:if="${documentos1} == ${documentos2}" th:text="' - '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor neutro"></p>
+                    <p th:if="${documentos1 ?: 0} > ${documentos2 ?: 0}" th:text="' ↑ '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor positivo"></p>
+                    <p th:if="${documentos1 ?: 0} < ${documentos2 ?: 0}" th:text="' ↓ '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor negativo"></p>
+                    <p th:if="${documentos1 ?: 0} == ${documentos2 ?: 0}" th:text="' - '+${#numbers.formatDecimal(difDoc, 1,0)}" class="subValor neutro"></p>
                 </div>
                 <div class="card-back back2">Mostra o número total de documentos emitidos, com a diferença em relação ao
                     período anterior.</div>
@@ -117,12 +116,12 @@
                         <p th:text="${table1[0].mediaTabela1}+ ' seg'"></p>
                         <span><i class="fa-solid fa-clock-rotate-left"></i></i></span>
                     </div>
-                    <p style="color: red;" th:if="${media1} > ${media2}" th:text="' ↑ '+${difMedia}"
+                    <p style="color: red;" th:if="${media1 ?: 0} > ${media2 ?: 0}" th:text="' ↑ '+${difMedia}"
                         class="subValor positivo">
                     </p>
-                    <p style="color: rgb(67, 211, 67);" th:if="${media1} < ${media2}" th:text="' ↓ '+${difMedia}"
+                    <p style="color: rgb(67, 211, 67);" th:if="${media1 ?: 0} < ${media2 ?: 0}" th:text="' ↓ '+${difMedia}"
                         class="subValor negativo"></p>
-                    <p th:if="${media1} == ${media2}" th:text="' - '+${difMedia}" class="subValor neutro"></p>
+                    <p th:if="${media1 ?: 0} == ${media2 ?: 0}" th:text="' - '+${difMedia}" class="subValor neutro"></p>
                 </div>
                 <div class="card-back back3">Indica o tempo médio de emissão dos documentos fiscais em segundos. A
                     variação mostra se o tempo aumentou ou diminuiu em relação ao período anterior.</div>
